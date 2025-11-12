@@ -47,9 +47,12 @@ class Note(Field):
     value: str
     tags: List[str] = field(default_factory=list)
 
-    def add_tag(self, tag: str):
+    def add_tag(self, tag: str) -> bool:
        pass
 
     def search_tag(self, keyword: str) -> bool:
+        pass
+
+    def delete_tag(self, tag: str) -> bool:
         pass
 

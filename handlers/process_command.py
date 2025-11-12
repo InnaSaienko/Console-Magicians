@@ -1,3 +1,4 @@
+from book.book import Book
 from utils.command_to_handler import COMMAND_TO_HANDLER
 
 

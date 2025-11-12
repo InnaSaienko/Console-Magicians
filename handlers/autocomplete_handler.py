@@ -1,7 +1,6 @@
 import shlex
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import Completer, Completion
-
 from utils.command_to_handler import COMMAND_TO_HANDLER
 
 
