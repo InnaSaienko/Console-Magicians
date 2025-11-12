@@ -20,5 +20,6 @@ class Book(UserDict):
             return False
 
 
-def get_upcoming_birthdays(self) -> list[dict]:
-    return get_birthdays(self.data)
+    def get_upcoming_birthdays(self) -> list[dict]:
+        # get_birthdays(self.data)
+        pass

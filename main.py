@@ -1,4 +1,6 @@
 from rich import print
+
+from book import book
 from handlers.autocomplete_handler import read_input
 from handlers.process_command import process_command
 
