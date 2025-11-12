@@ -9,50 +9,63 @@ from utils.validation_phone import validation_phone
 @dataclass
 class Field:
     value: str
+    def __str__(self) -> str:
+        return self.value
 
 
 @dataclass
 class Name(Field):
     value: str
-    # make formating name for removing all whitespaces and store it as title
+    def __init__(self, value: str):
+        self.value = value.strip().title()
 
 @dataclass
 class Phone(Field):
     value: str
 
     def __post_init__(self):
-        pass # make validation_phone(self.value)
+        self.value = validation_phone(self.value)
 
 @dataclass
 class Birthday(Field):
     value: date
     def __init__(self, value: str):
-        # try parse str to datetime obj by format "%d.%m.%Y").date() or except ValueError:
-        #     raise ValueError("Invalid date format. Use DD.MM.YYYY")
-        pass
+        try:
+            self.value = datetime.strptime(value, "%d.%m.%Y").date()
+        except ValueError:
+            raise ValueError("Invalid date format. Use DD.MM.YYYY")
 
     def __str__(self):
-        # return value turn to str with format "%d.%m.%Y"
-        pass
+        return self.value.strftime("%d.%m.%Y")
 
 @dataclass
 class Email(Field):
     value: str
     def __init__(self, value: str):
-        # raise ValueError("Invalid email format. Use 'user.name@example.com'") if validation return false or value = value.strip()
-        pass
+        if not validation_email(value):
+            raise ValueError("Invalid email format. Use 'user.name@example.com'")
+        self.value = value.strip()
 
 @dataclass
 class Note(Field):
     value: str
     tags: List[str] = field(default_factory=list)
 
-    def add_tag(self, tag: str) -> bool:
-       pass
+    def add_tag(self, tag: str):
+        if tag and tag.strip() not in self.tags:
+            self.tags.append(tag.strip())
 
     def search_tag(self, keyword: str) -> bool:
-        pass
+        if not keyword:
+            raise ValueError("Invalid tag format.")
+        return keyword.lower() in self.tags
 
     def delete_tag(self, tag: str) -> bool:
-        pass
+        if not tag:
+            raise ValueError("Invalid tag format.")
+        tag = tag.strip()
+        if tag in self.tags:
+            self.tags.remove(tag)
+            return "Tag was removed"
+        return False
 
