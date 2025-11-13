@@ -9,6 +9,7 @@ class Record:
     birthday: Optional[Birthday] = None
     phones: List[Phone] = field(default_factory=list)
     emails: List[Email] = field(default_factory=list)
+    address: Optional[Address] = None
     notes: List[Note] = field(default_factory=list)
 
     def __str__(self):
@@ -70,4 +71,59 @@ class Record:
                 return True
             except ValueError:
                 return False
-        return False   
+        return False
+    
+    def add_note(self, note_text: str, tags: Optional[List[str]] = None) -> bool:
+        new_note = Note(note_text)
+        if tags:
+            for tag in tags:
+                new_note.add_tag(tag)
+        self.notes.append(new_note)
+        return True
+    
+    def find_note_by_text(self, text: str) -> Optional[Note]:
+        normalized_text = text.strip().lower()
+        return next((n for n in self.notes if normalized_text in n.value.lower()), None)
+    
+    def delete_note(self, text_keyword: str) -> bool:
+        note_to_delete = self.find_note_by_text(text_keyword)
+        if note_to_delete:
+            self.notes.remove(note_to_delete)
+            return True
+        return False
+    
+    def update_note(self, old_text_keyword: str, new_text: str) -> bool:
+        note = self.find_note_by_text(old_text_keyword)
+        if note:
+            note.value = new_text
+            return True
+        return False
+    
+    def find_notes_by_tag(self, tag: str) -> list[Note]:        
+        normalized_tag = tag.strip().lower()
+        return [
+            note for note in self.notes 
+            if normalized_tag in [t.lower() for t in note.tags]
+        ]
+    
+    def add_tag(self, note_text_keyword: str, tag: str) -> bool:
+        note = self.find_note_by_text(note_text_keyword)
+        if note:
+            return note.add_tag(tag) 
+        return False
+    
+    def update_tag(self, note_text_keyword: str, old_tag: str, new_tag: Optional[str] = None) -> bool:
+        note = self.find_note_by_text(note_text_keyword)
+        if not note:
+            return False 
+        deleted = note.delete_tag(old_tag)
+        if deleted and new_tag:
+            note.add_tag(new_tag)
+            return True
+        return deleted
+    
+    def delete_tag(self, note_text_keyword: str, tag: str) -> bool:
+        note = self.find_note_by_text(note_text_keyword)
+        if note:
+            return note.delete_tag(tag)
+        return False
