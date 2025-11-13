@@ -6,6 +6,8 @@
   "change_success": "Contact updated.",
   "contact_not_found": "Contact not found.",
   "contact_list_empty": "No contacts found.",
+  "success_deleted": "Contact was successfully deleted",
+  "phone_not_found": "Phone number not found.",
 
   "birthday_added": "Birthday added.",
   "birthday_updated": "Birthday updated.",
@@ -20,14 +22,20 @@
   "unknown_command": "Unknown command.",
   "error_occurred": "An unexpected error occurred.",
 
+  "note_added": "Note was successfully added",
+  "note_updated": "Note successfully updated",
+  "note_does_not_exict": "No matching note was found",
+  "note_deleted": "Note was deleted",
+
   "show_all_title": "All contacts:",
   "show_phone_title": "Phone numbers for contact:",
 
   "input_prompt": "Enter command: ",
   "empty_book": "Your address book is empty.",
 
-  "phone_not_found": "Phone number not found.",
-  "success_deleted": "Contact was successfully deleted",
+  "tag_updated": "Tag was updated",
+  "tag_deleted": "Tag was deleted",
   "no_find_tag": "No notes found for this tag",
+
   "add_tag": "Tag was added to note"
 }
