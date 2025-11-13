@@ -55,17 +55,14 @@ class Note(Field):
         if tag and tag.strip() not in self.tags:
             self.tags.append(tag.strip())
 
-    def search_tag(self, keyword: str) -> bool:
+    def search_tag(self, keyword: str) -> str:
         if not keyword:
             raise ValueError("Invalid tag format.")
         return keyword.lower() in self.tags
 
     def delete_tag(self, tag: str) -> bool:
-        if not tag:
-            raise ValueError("Invalid tag format.")
-        tag = tag.strip()
         if tag in self.tags:
             self.tags.remove(tag)
-            return "Tag was removed"
+            return True
         return False
 
