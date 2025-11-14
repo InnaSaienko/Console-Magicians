@@ -15,9 +15,6 @@ class BookRepository:
     @classmethod
     def load(cls, file_path=FILE_PATH) -> Book:
         path = Path(file_path)
-
-        if not path.exists():
-            return Book()
         
         try:
             with open(path, "rb") as file:
