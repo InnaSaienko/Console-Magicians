@@ -15,7 +15,7 @@ with open(MESSAGES_PATH, encoding="utf-8") as f:
 @input_error
 def handle_add_contact(args, book):
     name, phone, email = args
-    record = book.data.get(name)
+    record = book.find(name)
     if record is None:
         record = Record(Name(name))
         record.add_phone(phone)
@@ -29,47 +29,42 @@ def handle_add_contact(args, book):
 @input_error
 def handle_update_phone(args, book):
     name, old_phone, new_phone = args
-    record = book.data.get(name)
+    record = book.find(name)
+    if not record:
+        return MESSAGES["contact_not_found"]
     old_phone = validation_phone(old_phone)
     new_phone = validation_phone(new_phone)
-    if record:
-        for phone in record.phones:
-            if phone.value == old_phone:
-                phone.value = new_phone
-                return True
-            return False
-
-    return False
+    is_edited = record.edit_phone(old_phone, new_phone)
+    return MESSAGES["phone_updated"] if is_edited else MESSAGES ['phone_not_found']
 
 @input_error
 def handle_delete_contact(args, book):
     name, *rest = args
-    is_deleted = book.delete(name)
-    if is_deleted:
-        return MESSAGES["success_deleted"]
-    return MESSAGES["contact_not_found"]
+    record = book.find(name)
+    if not record:
+        return MESSAGES ['contact_not_found']
+    is_deleted = book.delete(record.name.value)
+    return MESSAGES["success_deleted"] if is_deleted else MESSAGES ['contact_not_found']
 
 @input_error
 def handle_show_phone(args, book):
     name, *rest = args
-    found_record = book.get(name)
+    found_record = book.find(name)
     if found_record is None:
         return MESSAGES["contact_not_found"]
-    count_phones = len(found_record.phones)
-    if count_phones == 0:
+    if found_record.phones:
         return MESSAGES["phones_no_data"]
     return f'Phones: {','.join(found_record.phones)}'
 
 @input_error
 def handle_show_email(args, book):
     name, *rest = args
-    found_record = book.get(name)
+    found_record = book.find(name)
     if found_record is None:
         return MESSAGES["contact_not_found"]
-    count_phones = len(found_record.phones)
-    if count_phones == 0:
-        return MESSAGES["phones_no_data"]
-    return f'Phones: {','.join(found_record.phones)}'
+    if found_record.emails:
+        return MESSAGES["emails_no_data"]
+    return f'Emails: {','.join(found_record.emails)}'
 
 def handle_show_address(args, book):
     pass # Neither book nor record has an address field.

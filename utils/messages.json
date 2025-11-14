@@ -9,6 +9,7 @@
   "success_deleted": "Contact was successfully deleted",
   "phone_not_found": "Phone number not found.",
   "phones_no_data": "Phones are empty.",
+  "phone_updated": "Phone updated.",
   "address_empty": "Address is empty.",
 
   "birthday_added": "Birthday added.",
@@ -39,5 +40,8 @@
   "tag_deleted": "Tag was deleted",
   "no_find_tag": "No notes found for this tag",
 
-  "add_tag": "Tag was added to note"
+  "add_tag": "Tag was added to note",
+
+  "email_no_data": "Email is empty",
+  "email_not_found": "Email not found"
 }
