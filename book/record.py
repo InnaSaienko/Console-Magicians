@@ -14,6 +14,7 @@ class Record:
 
     def __str__(self):
         phone_str = '; '.join(p.value for p in self.phones)
+
         return f"Contact name: {self.name.value}, birthday: {self.birthday}, phones: {phone_str}"
 
     def add_phone(self, phone: str) -> bool:
@@ -53,15 +54,10 @@ class Record:
         return False
 
     def edit_phone(self, old_phone: str, new_phone: str) -> bool:
-        phone = self.find_phone(old_phone)
-        if phone:
-            try:
-                validated_new_phone = Phone(new_phone) 
-                index = self.phones.index(phone)
-                self.phones[index] = validated_new_phone
-                return True
-            except ValueError:
-                return False
+        phone_to_edit = self.find_phone(old_phone) 
+        if phone_to_edit:
+            phone_to_edit.value = new_phone 
+            return True       
         return False
     
     def add_note(self, note_text: str, tags: Optional[List[str]] = None) -> bool:
