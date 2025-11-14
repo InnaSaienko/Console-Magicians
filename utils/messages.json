@@ -8,6 +8,8 @@
   "contact_list_empty": "No contacts found.",
   "success_deleted": "Contact was successfully deleted",
   "phone_not_found": "Phone number not found.",
+  "phones_no_data": "Phones are empty.",
+  "address_empty": "Address is empty.",
 
   "birthday_added": "Birthday added.",
   "birthday_updated": "Birthday updated.",
