@@ -47,11 +47,13 @@ class Record:
        # return True if phone was updated else False
         pass
 
+    def find_email(self, email: str) -> Email | None:
+        return next((e for e in self.emails if e.value == email), None)
+
     def update_email(self, old_email: str, new_email: str) -> bool:
-        for email in self.emails:
-            if email.value == old_email:
-                email.value = new_email
-                return True
+        if email := self.find_email(old_email):
+            email.value = new_email
+            return True
         return False
 
     def update_birthday(self, value: Birthday):
