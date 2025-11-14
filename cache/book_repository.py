@@ -21,7 +21,7 @@ class BookRepository:
                 book = pickle.load(file)
                 return cls()
         except FileNotFoundError:
-            raise
+            return cls()
         except (pickle.UnpicklingError, EOFError, AttributeError, ImportError) as e:
             raise
 

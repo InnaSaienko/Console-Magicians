@@ -19,9 +19,8 @@ def main():
         except StopIteration:
             break
         finally:
-            pass
-    print(f"Goodbye!")
-    BookRepository.save(book)    
+            BookRepository.save(book)
+        print(f"Goodbye!") 
 
 
 if __name__ == "__main__":
