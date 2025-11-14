@@ -1,8 +1,10 @@
 import json
 from pathlib import Path
 from book.record import Record
-from book.fields_type import Name
+from book.fields_type import Name, Birthday, Email
 from display.display_records import show_records
+from utils.validation_birthday import validation_birthday
+from utils.validation_email import validation_email
 from utils.validation_phone import validation_phone
 from handlers.decorator_error import input_error
 
@@ -119,3 +121,29 @@ def handle_welcome(_args, _book):
 
 def handle_exit(_args, _book):
     raise StopIteration()
+
+
+@input_error
+def handle_update_email(args, book):
+    name, old_email, new_email = args
+    record = book.find(name)
+    if not record:
+        return MESSAGES["contact_not_found"]
+    email = record.find_email(old_email)
+    if not email:
+        return MESSAGES["email_not_found"]
+    if not validation_email(new_email):
+        return MESSAGES["email_validation_error"]
+    record.update_email(old_email, new_email)
+    return MESSAGES['email_updated']
+
+@input_error
+def handle_update_birthday(args, book):
+    name, birthday = args
+    record = book.find(name)
+    if not record:
+        return MESSAGES["contact_not_found"]
+    if not validation_birthday(birthday):
+        return MESSAGES['birthday_validation_error']
+    record.update_birthday(Birthday(birthday))
+    return MESSAGES['birthday_updated']

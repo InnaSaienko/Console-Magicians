@@ -2,7 +2,8 @@ from handlers.book_handlers import (handle_add_contact,
                                     handle_update_phone,
                                     handle_delete_contact,
                                     handle_show_phone, handle_show_all_contacts, handle_upcoming_birthdays,
-                                    handle_add_birthday, handle_show_birthday, handle_find_contact)
+                                    handle_add_birthday, handle_show_birthday, handle_find_contact, handle_update_email,
+                                    handle_update_birthday)
 from handlers.common_handlers import handle_exit, handle_hello
 from handlers.notes_handlers import handle_add_note, handle_delete_note, handle_update_note, handle_add_tag, \
     handle_update_tag
@@ -11,6 +12,8 @@ COMMAND_TO_HANDLER = {
     'add-contact': handle_add_contact,
     'add-birthday': handle_add_birthday,
     'update-phone': handle_update_phone,
+    'update-email': handle_update_email,
+    'update-birthday': handle_update_birthday,
     'show-birthday': handle_show_birthday,
     'upcoming-birthdays': handle_upcoming_birthdays,
     # 'add-address': handle_add_address,
