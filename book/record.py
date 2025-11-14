@@ -14,16 +14,7 @@ class Record:
 
     def __str__(self):
         phone_str = '; '.join(p.value for p in self.phones)
-        email_str = '; '.join(e.value for e in self.emails) if self.emails else "N/A"
-        address_str = f", Address: {self.address.value}" if self.address else ""
-        birthday_str = f", Birthday: {self.birthday}" if self.birthday else ""
-        return (
-            f"Contact name: {self.name.value}"
-            f"{birthday_str}" 
-            f"{address_str}"
-            f", Email: {email_str}"
-            f", Phone: {phone_str}"
-        )
+        return f"Contact name: {self.name.value}, birthday: {self.birthday}, phones: {phone_str}"
 
     def add_phone(self, phone: str) -> bool:
         try:
