@@ -134,6 +134,8 @@ def handle_update_email(args, book):
         return MESSAGES["email_not_found"]
     if not validation_email(new_email):
         return MESSAGES["email_validation_error"]
+    if not validation_email(old_email):
+        return MESSAGES["email_validation_error"]
     record.update_email(old_email, new_email)
     return MESSAGES['email_updated']
 
