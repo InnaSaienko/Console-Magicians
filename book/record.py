@@ -60,12 +60,8 @@ class Record:
             return True       
         return False
     
-    def add_note(self, note_text: str, tags: Optional[List[str]] = None) -> bool:
-        new_note = Note(note_text)
-        if tags:
-            for tag in tags:
-                new_note.add_tag(tag)
-        self.notes.append(new_note)
+    def add_note(self, note_obj: Note) -> bool:
+        self.notes.append(note_obj)
         return True
     
     def find_note_by_text(self, text: str) -> Optional[Note]:
