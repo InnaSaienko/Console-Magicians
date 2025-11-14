@@ -17,7 +17,7 @@ class Field:
 class Name(Field):
     value: str
     def __init__(self, value: str):
-        self.value = value.strip().title()
+        self.value = value.strip().lower()
 
 @dataclass
 class Phone(Field):
