@@ -54,7 +54,7 @@ def handle_show_phone(args, book):
         return MESSAGES["contact_not_found"]
     if found_record.phones:
         return MESSAGES["phones_no_data"]
-    return f'Phones: {','.join(found_record.phones)}'
+    return f'Phones: {'; '.join(item.value for item in found_record.phones)}'
 
 @input_error
 def handle_show_email(args, book):
@@ -64,7 +64,7 @@ def handle_show_email(args, book):
         return MESSAGES["contact_not_found"]
     if found_record.emails:
         return MESSAGES["emails_no_data"]
-    return f'Emails: {','.join(found_record.emails)}'
+    return f'Emails: {'; '.join(item.value for item in found_record.emails)}'
 
 def handle_show_address(args, book):
     pass # Neither book nor record has an address field.
