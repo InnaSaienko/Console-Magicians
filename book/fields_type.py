@@ -51,14 +51,19 @@ class Note(Field):
     value: str
     tags: List[str] = field(default_factory=list)
 
-    def add_tag(self, tag: str):
+    def add_tag(self, tag: str) -> bool:
         if tag and tag.strip() not in self.tags:
             self.tags.append(tag.strip())
+            return True
+        return False
 
-    def search_tag(self, keyword: str) -> str:
+    def search_tag(self, keyword: str):
         if not keyword:
             raise ValueError("Invalid tag format.")
-        return keyword.lower() in self.tags
+        
+        if keyword.lower() in self.tags:
+            return keyword.lower()
+        return False
 
     def delete_tag(self, tag: str) -> bool:
         if tag in self.tags:
