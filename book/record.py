@@ -18,25 +18,17 @@ class Record:
         return f"Contact name: {self.name.value}, birthday: {self.birthday}, phones: {phone_str}"
 
     def add_phone(self, phone: str) -> bool:
-        try:
             self.phones.append(Phone(phone))
             return True
-        except ValueError:
-            return False
+
 
     def add_email(self, email: str) -> bool:
-        try:
             self.emails.append(Email(email))
             return True
-        except ValueError:
-            return False
 
     def add_birthday(self, birthday) -> bool:
-        try:
             self.birthday = Birthday(birthday)
             return True
-        except ValueError:
-            return False
         
     def add_address(self, address_str: str) -> bool:
             self.address = Address(address_str)
@@ -65,8 +57,7 @@ class Record:
         return True
     
     def find_note_by_text(self, text: str) -> Optional[Note]:
-        normalized_text = text.strip().lower()
-        return next((n for n in self.notes if normalized_text in n.value.lower()), None)
+        return next((n for n in self.notes if text in n.value.lower()), None)
     
     def delete_note(self, text_keyword: str) -> bool:
         note_to_delete = self.find_note_by_text(text_keyword)
