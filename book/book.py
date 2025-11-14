@@ -21,7 +21,7 @@ class Book(UserDict):
             return False
 
     def is_empty(self) -> bool:
-        return len(self.data) == 0
+        return self.data
 
     def get_upcoming_birthdays(self) -> list[dict]:
         return get_birthdays(self.data)
