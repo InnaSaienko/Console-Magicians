@@ -17,6 +17,7 @@
   "birthday_contact_missing": "Can't update birthday, the contact doesn't exist.",
   "birthday_not_found": "No birthday information found.",
   "birthday_show_fail": "No contact found.",
+  "birthday_validation_error": "Birthday has incorrect format. Use DD.MM.YYY",
 
   "invalid_name": "Invalid name.",
   "invalid_args": "A username is required.",
@@ -43,5 +44,7 @@
   "add_tag": "Tag was added to note",
 
   "email_no_data": "Email is empty",
-  "email_not_found": "Email not found"
+  "email_not_found": "Email not found",
+  "email_updated": "Email updated",
+  "email_validation_error": "Email is not valid."
 }
