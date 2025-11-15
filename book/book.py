@@ -1,7 +1,6 @@
 from collections import UserDict
 from typing import Optional
-from record import Record
-
+from book.record import Record
 from utils.get_upcoming_birthdays import get_birthdays
 
 

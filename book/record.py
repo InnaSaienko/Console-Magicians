@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
-from fields_type import Name, Phone, Birthday, Email, Note, Address
+from book.fields_type import Name, Phone, Birthday, Email, Note, Address
 
 
 @dataclass

@@ -1,7 +1,8 @@
 
 import pickle
 from pathlib import Path
-from book import Book
+
+from book.book import Book
 
 FILE_PATH = Path("book_data.pkl")
 
