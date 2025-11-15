@@ -6,7 +6,7 @@ from handlers.book_handlers import (handle_add_contact,
                                     handle_update_birthday, handle_find_email, handle_find_birthday, handle_add_address,handle_show_email)
 from handlers.common_handlers import handle_exit, handle_hello
 from handlers.notes_handlers import handle_add_note, handle_delete_note, handle_update_note, handle_add_tag, \
-    handle_update_tag
+    handle_update_tag, handle_show_contact_notes, handle_find_notes_by_tag
 
 COMMAND_TO_HANDLER = {
     'add-contact': handle_add_contact,
@@ -28,6 +28,8 @@ COMMAND_TO_HANDLER = {
     "add-note": handle_add_note,
     "delete-note": handle_delete_note,
     "update-note": handle_update_note,
+    "show-contact-notes": handle_show_contact_notes,
+    "find-notes-by-tag": handle_find_notes_by_tag,
 
     "add-tag": handle_add_tag,
     "change-tag": handle_update_tag,

@@ -16,7 +16,7 @@ with open(MESSAGES_PATH, encoding="utf-8") as f:
 @input_error
 def handle_add_note(args, book: Book):
     name, note, *tags = args
-    record = book.find(name.title())
+    record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
 
@@ -31,7 +31,7 @@ def handle_add_note(args, book: Book):
 @input_error
 def handle_add_tag(args, book: Book):
     name, keywords, new_tag = args
-    record = book.find(name.title())
+    record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
 
@@ -49,7 +49,7 @@ def handle_add_tag(args, book: Book):
 @input_error
 def handle_update_note(args, book: Book):
     name, keyword, new_note = args
-    record = book.find(name.title())
+    record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
 
@@ -61,7 +61,7 @@ def handle_update_note(args, book: Book):
 @input_error
 def handle_update_tag(args, book: Book):
     name, keyword, old_tag, new_tag = args
-    record = book.find(name.title())
+    record = book.find(name.lower())
 
     if not record:
         return MESSAGES["contact_not_found"]
@@ -72,7 +72,7 @@ def handle_update_tag(args, book: Book):
 @input_error
 def handle_delete_note(args, book: Book):
     name, keyword = args
-    record = book.find(name.title())
+    record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
 
@@ -85,7 +85,7 @@ def handle_delete_note(args, book: Book):
 @input_error
 def handle_delete_tag(args, book: Book):
     name, keyword, tag_to_delete = args
-    record = book.find(name.title())
+    record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
 
@@ -95,9 +95,9 @@ def handle_delete_tag(args, book: Book):
     return MESSAGES["no_find_tag"]
 
 @input_error
-def handle_show_notes(args, book: Book):
+def handle_show_contact_notes(args, book: Book):
     name, *rest = args
-    record = book.find(name.title())
+    record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
 
@@ -111,7 +111,7 @@ def handle_show_notes(args, book: Book):
 @input_error
 def handle_find_notes_by_tag(args, book: Book) -> str | list[str]:
     name, tag = args
-    record = book.find(name.title())
+    record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
 
