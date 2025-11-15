@@ -1,12 +1,11 @@
 from handlers.book_handlers import MESSAGES
-from handlers.decorator_error import input_error
 
 
 def handle_hello(_args, _book):
     return MESSAGES["welcome"]
 
 def handle_help(_args, _book):
-    return f"""
+    return """
 add-contact [ім'я] [телефон] [email] — Додати до контактів нового користувача або оновити існуючого з зазначеним ім’ям, номером телефону та email.
 add-birthday [ім'я] [дата народження] — Додати дату народження для вказаного контакту.
 add-email [ім'я] [email] — Додати email для вказаного контакту.
@@ -39,7 +38,7 @@ hello — Отримати вітання від бота.
 close або exit — Завершити роботу програми.
 """
 
-@input_error
+
 def handle_exit(_args, _book):
     raise StopIteration()
 
