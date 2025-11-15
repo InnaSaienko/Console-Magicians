@@ -64,10 +64,11 @@ def handle_show_phone(args, book):
 @input_error
 def handle_show_email(args, book):
     name, *rest = args
-    found_record = book.find(name)
+    normalized_name = name.strip().lower()
+    found_record = book.find(normalized_name)
     if found_record is None:
         return MESSAGES["contact_not_found"]
-    if found_record.emails:
+    if not found_record.emails:
         return MESSAGES["emails_no_data"]
     return f'Emails: {'; '.join(item.value for item in found_record.emails)}'
 
