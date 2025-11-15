@@ -127,9 +127,15 @@ def handle_find_contact(args, book):
 def handle_upcoming_birthdays(args, book):
     if book.is_empty():
         return MESSAGES["empty_book"]
-    for item in book.get_upcoming_birthdays():
-        print(f'User={item.name}, birthday={item.congratulation_date}')
-    return None
+    upcoming_list = book.get_upcoming_birthdays()
+    if not upcoming_list:
+        return "No upcoming birthdays found"
+    output = ["Upcoming birthdays:"]
+    for item in upcoming_list:
+        output.append(f"User: {item['name']}, Date: {item['date']}")
+        
+    return "\n".join(output)
+
 
 @input_error
 def handle_add_birthday(args, book):
