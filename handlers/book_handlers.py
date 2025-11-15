@@ -17,7 +17,8 @@ with open(MESSAGES_PATH, encoding="utf-8") as f:
 @input_error
 def handle_add_contact(args, book):
     name, phone, email = args
-    record = book.find(name)
+    normalized_name = name.strip().lower()
+    record = book.find(normalized_name)
     if record is None:
         record = Record(Name(name))
         record.add_phone(phone)
@@ -51,10 +52,11 @@ def handle_delete_contact(args, book):
 @input_error
 def handle_show_phone(args, book):
     name, *rest = args
-    found_record = book.find(name)
+    normalized_name = name.strip().lower()
+    found_record = book.find(normalized_name)
     if found_record is None:
         return MESSAGES["contact_not_found"]
-    if found_record.phones:
+    if not found_record.phones:
         return MESSAGES["phones_no_data"]
     return f'Phones: {'; '.join(item.value for item in found_record.phones)}'
 
