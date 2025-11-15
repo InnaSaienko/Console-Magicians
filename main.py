@@ -20,7 +20,7 @@ def main():
             break
         finally:
             BookRepository.save(book)
-        print(f"Goodbye!") 
+    print(f"Goodbye!") 
 
 
 if __name__ == "__main__":

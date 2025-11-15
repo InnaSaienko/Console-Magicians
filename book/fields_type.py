@@ -71,3 +71,9 @@ class Note(Field):
             return True
         return False
 
+@dataclass
+class Address(Field):
+    value: str
+    def __init__(self, value: str):
+        self.value = value.strip()
+

@@ -103,15 +103,15 @@ class Record:
         return False
 
     def find_email(self, email: str) -> Email | None:
-        for email in self.emails:
-            if email.value == email:
-                return email
+        for email_obj in self.emails:
+            if email_obj.value == email:
+                return email_obj
         return None
 
     def update_email(self, old_email: str, new_email: str) -> bool:
-        for email in self.emails:
-            if email.value == old_email:
-                email.value = new_email
+        for email_obj in self.emails:
+            if email_obj.value == old_email:
+                email_obj.value = new_email
                 return True
         return False
 
