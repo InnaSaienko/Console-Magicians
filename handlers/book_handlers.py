@@ -17,14 +17,16 @@ with open(MESSAGES_PATH, encoding="utf-8") as f:
 
 @input_error
 def handle_add_contact(args, book):
-    name, phone, email = args
+    name, phone,*rest = args
+    email = rest[0] if rest else None 
     normalized_name = name.strip().lower()
     record = book.find(normalized_name)
     if record is None:
         record = Record(Name(name))
         record.add_phone(phone)
-        record.add_email(email)
         book.add_record(record)
+        if email:
+            record.add_email(email)
         return MESSAGES["contact_added"]
     else:
         record.add_phone(phone)
@@ -60,6 +62,18 @@ def handle_show_phone(args, book):
     if not found_record.phones:
         return MESSAGES["phones_no_data"]
     return f'Phones: {'; '.join(item.value for item in found_record.phones)}'
+
+@input_error
+def handle_add_email(args, book):
+    name, email = args
+    normalized_name = name.strip().lower()
+    record = book.find(normalized_name)
+    if record is None:
+        record = Record(Name(name))
+        book.add_record(record)
+        is_new = True
+    record.add_email(email)
+    return MESSAGES["contact_added"]
 
 @input_error
 def handle_show_email(args, book):
