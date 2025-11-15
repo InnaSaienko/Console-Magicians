@@ -76,7 +76,7 @@ def handle_show_all_contacts(args, book):
     if book.is_empty():
         return MESSAGES["empty_book"]
 
-    show_records(book.data)
+    show_records(book)
     return None
 
 
