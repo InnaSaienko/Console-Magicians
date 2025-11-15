@@ -21,7 +21,7 @@ class Book(UserDict):
 
     def find_by_email(self, email: str) -> list[Record] | None:
         result = []
-        for record in self.data:
+        for record in self.data.values():
             if record.find_email(email):
                 result.append(record)
         return result
