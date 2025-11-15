@@ -152,7 +152,7 @@ def handle_update_birthday(args, book):
 
 @input_error
 def handle_find_email(args, book):
-    name, email, *rest = args
+    email, *rest = args
     records = book.find_by_email(email)
     if not records:
         return MESSAGES["contact_not_found"]
@@ -161,7 +161,7 @@ def handle_find_email(args, book):
 
 @input_error
 def handle_find_birthday(args, book):
-    name, birthday, *rest = args
+    birthday, *rest = args
     records = book.find_by_birthday(birthday)
     if not records:
         return MESSAGES["contact_not_found"]
