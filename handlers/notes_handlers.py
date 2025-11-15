@@ -84,12 +84,12 @@ def handle_delete_note(args, book: Book):
 
 @input_error
 def handle_delete_tag(args, book: Book):
-    name, keyword, tag_to_delete = args
+    name, note_keyword, tag_to_delete = args
     record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
 
-    response = record.delete_note(keyword, tag_to_delete)
+    response = record.delete_tag(note_keyword, tag_to_delete)
     if response:
         return MESSAGES["tag_deleted"]
     return MESSAGES["no_find_tag"]
@@ -105,11 +105,10 @@ def handle_show_contact_notes(args, book: Book):
         return MESSAGES["note_does_not_exict"]
 
     show_notes_for_record(record)
-    return ""
 
 
 @input_error
-def handle_find_notes_by_tag(args, book: Book) -> str | list[str]:
+def handle_find_notes_by_tag(args, book: Book) -> str |  None:
     name, tag = args
     record = book.find(name.lower())
     if not record:
@@ -119,6 +118,4 @@ def handle_find_notes_by_tag(args, book: Book) -> str | list[str]:
     if not matches:
         return MESSAGES["no_find_tag"]
 
-    return "\n".join(
-        f"{i + 1}. {n.value} [tags: {', '.join(n.tags)}]" for i, n in enumerate(matches)
-    )
+    show_notes_for_record(matches)

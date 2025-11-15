@@ -1,5 +1,8 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
+
+from records import Record
+
 from book.fields_type import Name, Phone, Birthday, Email, Note, Address
 
 
@@ -33,7 +36,6 @@ class Record:
     def add_address(self, address_str: str) -> bool:
             self.address = Address(address_str)
             return True
-
 
     def find_phone(self, phone: str) -> Optional[Phone]:
         return next((p for p in self.phones if p.value == phone), None)
@@ -73,17 +75,23 @@ class Record:
             return True
         return False
 
-    def find_notes_by_tag(self, tag: str) -> list[Note]:
-        normalized_tag = tag.strip().lower()
-        return [
+    def find_notes_by_tag(self, tag: str) -> Record | None:
+        normalized = tag.strip().lower()
+        filtered = [
             note for note in self.notes
-            if normalized_tag in [t.lower() for t in note.tags]
+            if normalized in (t.lower() for t in note.tags)
         ]
+        if not filtered:
+            return None
+
+        new_record = Record(self.name)
+        new_record.notes = filtered
+        return new_record
 
     def add_tag(self, note_text_keyword: str, tag: str) -> bool:
         note = self.find_note_by_text(note_text_keyword)
         if note:
-            return note.add_tag(tag)
+            return note.add_tag(tag.lower())
         return False
 
     def update_tag(self, note_text_keyword: str, old_tag: str, new_tag: Optional[str] = None) -> bool:
@@ -96,10 +104,10 @@ class Record:
             return True
         return deleted
 
-    def delete_tag(self, note_text_keyword: str, tag: str) -> bool:
-        note = self.find_note_by_text(note_text_keyword)
+    def delete_tag(self, note_keyword: str, tag_to_delete: str) -> bool:
+        note = self.find_note_by_text(note_keyword)
         if note:
-            return note.delete_tag(tag)
+            return note.delete_tag(tag_to_delete)
         return False
 
     def find_email(self, email: str) -> Email | None:

@@ -52,10 +52,19 @@ class Note(Field):
     tags: List[str] = field(default_factory=list)
 
     def add_tag(self, tag: str) -> bool:
-        if tag and tag.strip() not in self.tags:
-            self.tags.append(tag.strip())
-            return True
-        return False
+        parts = [t.strip().lower() for t in tag.split() if t.strip()]
+        added = False
+        for p in parts:
+            if p not in self.tags:
+                self.tags.append(p)
+                added = True
+        return added
+
+
+        # if tag and tag.strip() not in self.tags:
+        #     self.tags.append(tag.strip())
+        #     return True
+        # return False
 
     def search_tag(self, keyword: str):
         if not keyword:

@@ -3,6 +3,7 @@ from rich.table import Table
 
 console = Console(record=True)
 
+
 def show_notes_for_record(record):
     if not record.notes:
         console.print(f"[yellow]{record.name.value} has no notes.[/yellow]")
