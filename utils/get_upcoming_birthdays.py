@@ -28,6 +28,9 @@ def get_birthdays(data: Dict[str, Any], days: int = 7) -> list[str]:
                 birthday_this_year += timedelta(days=adjust_for_weekend(weekday))
             
             if today <= birthday_this_year <= end_date:
-                upcoming_birthdays.append(record.name.value)
+                upcoming_birthdays.append({
+                    "name": record.name.value,
+                    "date": birthday_this_year.strftime("%d.%m.%Y") 
+                })
 
     return upcoming_birthdays
