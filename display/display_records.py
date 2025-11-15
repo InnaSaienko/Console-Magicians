@@ -3,8 +3,8 @@ from rich.table import Table
 
 console = Console(record=True)
 
-def show_records(records, title="Contacts"):
-    if not records:
+def show_records(book, title="Contacts"):
+    if not book:
         console.print("[yellow]No records found[/yellow]")
         return
 
@@ -16,7 +16,7 @@ def show_records(records, title="Contacts"):
     table.add_column("Notes", style="yellow")
     table.add_column("Tags", style="cyan")
 
-    for record in records:
+    for record in book.values():
         phones = "; ".join(p.value for p in record.phones)
         birthday = str(record.birthday.value) if record.birthday else "-"
         emails = "; ".join(e.value for e in record.emails)
