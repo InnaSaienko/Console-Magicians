@@ -1,4 +1,5 @@
 from book.book import Book
+from rich import print
 from utils.command_to_handler import COMMAND_TO_HANDLER
 
 
