@@ -1,7 +1,8 @@
 import json
 from pathlib import Path
+
 from book.record import Record
-from book.fields_type import Name, Birthday, Email
+from book.fields_type import Name, Birthday, Email, Address
 from display.display_records import show_records
 from utils.validation_birthday import validation_birthday
 from utils.validation_email import validation_email
@@ -170,3 +171,12 @@ def handle_find_birthday(args, book):
 
     return show_records(records)
 
+
+@input_error
+def handle_add_address(args, book):
+    name, address, *rest = args
+    record = book.find(name)
+    if not record:
+        return MESSAGES["contact_not_found"]
+    record.add_address(Address(address))
+    return MESSAGES["address_added"]
