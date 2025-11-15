@@ -87,7 +87,14 @@ def handle_show_email(args, book):
     return f'Emails: {'; '.join(item.value for item in found_record.emails)}'
 
 def handle_show_address(args, book):
-    pass # Neither book nor record has an address field.
+    name, *rest = args
+    normalized_name = name.strip().lower()
+    found_record = book.find(normalized_name)
+    if found_record is None:
+        return MESSAGES["contact_not_found"]
+    if found_record.address is None:
+        return MESSAGES["address-not-found"]
+    return f"Address for {found_record.name.value}: {found_record.address.value}"
 
 @input_error
 def handle_show_all_contacts(args, book):
@@ -189,9 +196,12 @@ def handle_find_birthday(args, book):
 
 @input_error
 def handle_add_address(args, book):
-    name, address, *rest = args
-    record = book.find(name)
+    name = args[0]
+    normalized_name = name.strip().lower()
+    address_parts = args[1:] 
+    address_str = " ".join(address_parts)
+    record = book.find(normalized_name)
     if not record:
         return MESSAGES["contact_not_found"]
-    record.add_address(Address(address))
+    record.add_address(address_str)
     return MESSAGES["address_added"]

@@ -13,6 +13,7 @@
 
   "address_empty": "Address is empty.",
   "address_added": "Address added.",
+  "address-not-found":"Address not found for this contact",
 
   "birthday_added": "Birthday added.",
   "birthday_updated": "Birthday updated.",
