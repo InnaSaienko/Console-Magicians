@@ -28,7 +28,7 @@ class Book(UserDict):
 
     def find_by_birthday(self, birthday: str) -> list[Record] | None:
         result = []
-        for record in self.data:
+        for record in self.data.values():
             if record.birthday == birthday:
                 result.append(record)
         return result
