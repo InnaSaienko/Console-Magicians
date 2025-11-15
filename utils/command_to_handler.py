@@ -10,22 +10,26 @@ from handlers.notes_handlers import handle_add_note, handle_delete_note, handle_
 
 COMMAND_TO_HANDLER = {
     'add-contact': handle_add_contact,
-    'add-birthday': handle_add_birthday,
-    'add-email':handle_add_email,
-    'update-phone': handle_update_phone,
-    'update-email': handle_update_email,
-    'update-birthday': handle_update_birthday,
-    'show-birthday': handle_show_birthday,
-    'show-email':handle_show_email,
-    'show-address':handle_show_address,
-    'upcoming-birthdays': handle_upcoming_birthdays,
-    'add-address': handle_add_address,
     'find-contact': handle_find_contact,
-    'find-email': handle_find_email,
-    'find-birthday': handle_find_birthday,
     'delete-contact': handle_delete_contact,
-    'show-phone': handle_show_phone,
     'all-contact': handle_show_all_contacts,
+
+    'update-phone': handle_update_phone,
+    'show-phone': handle_show_phone,
+
+    'add-birthday': handle_add_birthday,
+    'find-birthday': handle_find_birthday,
+    'show-birthday': handle_show_birthday,
+    'update-birthday': handle_update_birthday,
+    'upcoming-birthdays': handle_upcoming_birthdays,
+
+    'add-email':handle_add_email,
+    'update-email': handle_update_email,
+    'find-email': handle_find_email,
+    'show-email':handle_show_email,
+
+    'show-address':handle_show_address,
+    'add-address': handle_add_address,
 
     "add-note": handle_add_note,
     "delete-note": handle_delete_note,
