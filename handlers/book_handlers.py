@@ -134,6 +134,8 @@ def handle_update_email(args, book):
         return MESSAGES["email_not_found"]
     if not validation_email(new_email):
         return MESSAGES["email_validation_error"]
+    if not validation_email(old_email):
+        return MESSAGES["email_validation_error"]
     record.update_email(old_email, new_email)
     return MESSAGES['email_updated']
 
@@ -147,3 +149,22 @@ def handle_update_birthday(args, book):
         return MESSAGES['birthday_validation_error']
     record.update_birthday(Birthday(birthday))
     return MESSAGES['birthday_updated']
+
+@input_error
+def handle_find_email(args, book):
+    email, *rest = args
+    records = book.find_by_email(email)
+    if not records:
+        return MESSAGES["contact_not_found"]
+
+    return show_records(records)
+
+@input_error
+def handle_find_birthday(args, book):
+    birthday, *rest = args
+    records = book.find_by_birthday(birthday)
+    if not records:
+        return MESSAGES["contact_not_found"]
+
+    return show_records(records)
+
