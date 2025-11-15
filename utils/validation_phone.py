@@ -3,7 +3,7 @@ from phonenumbers.phonenumberutil import NumberParseException
 
 def validation_phone(phone: str) -> str | ValueError:
     try:
-        phone_number_obj = phonenumbers.parse(phone, None)
+        phone_number_obj = phonenumbers.parse(phone, "UA")
         if not phonenumbers.is_valid_number(phone_number_obj):
             raise ValueError(f"Invalid phone number '{phone}'. Must be a valid number.")
         formatted_phone_number = phonenumbers.format_number(
