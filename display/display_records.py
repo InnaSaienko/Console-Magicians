@@ -13,7 +13,7 @@ def show_records(book, title="Contacts"):
     table.add_column("Birthday", style="magenta")
     table.add_column("Phones", style="green")
     table.add_column("Emails", style="blue")
-    table.add_column("Address", style="gray")
+    table.add_column("Address", style="light_slate_grey")
     table.add_column("Notes", style="yellow")
     table.add_column("Tags", style="cyan")
 
