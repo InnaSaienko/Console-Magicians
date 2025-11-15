@@ -44,8 +44,9 @@ def handle_add_tag(args, book: Book):
         if new_tag not in note.tags:
             note.add_tag(new_tag)
         return MESSAGES["add_tag"]
+    
 
-
+@input_error
 def handle_update_note(args, book: Book):
     name, keyword, new_note = args
     record = book.find(name.title())
@@ -57,6 +58,7 @@ def handle_update_note(args, book: Book):
     return msg
 
 
+@input_error
 def handle_update_tag(args, book: Book):
     name, keyword, old_tag, new_tag = args
     record = book.find(name.title())
@@ -67,7 +69,7 @@ def handle_update_tag(args, book: Book):
     msg = MESSAGES["tag_updated"] if updated else MESSAGES["no_find_tag"]
     return msg
 
-
+@input_error
 def handle_delete_note(args, book: Book):
     name, keyword = args
     record = book.find(name.title())
@@ -80,6 +82,7 @@ def handle_delete_note(args, book: Book):
     return MESSAGES["no_delete_note"]
 
 
+@input_error
 def handle_delete_tag(args, book: Book):
     name, keyword, tag_to_delete = args
     record = book.find(name.title())
@@ -91,6 +94,7 @@ def handle_delete_tag(args, book: Book):
         return MESSAGES["tag_deleted"]
     return MESSAGES["no_find_tag"]
 
+@input_error
 def handle_show_notes(args, book: Book):
     name, *rest = args
     record = book.find(name.title())
@@ -104,6 +108,7 @@ def handle_show_notes(args, book: Book):
     return ""
 
 
+@input_error
 def handle_find_notes_by_tag(args, book: Book) -> str | list[str]:
     name, tag = args
     record = book.find(name.title())
