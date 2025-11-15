@@ -16,6 +16,10 @@ def main():
                 print(result)
         except StopIteration:
             break
+        except ValueError as e:
+            print(e)
+        except Exception as e:
+            print(e)
         finally:
             repository.save(book)
     print(f"Goodbye!") 

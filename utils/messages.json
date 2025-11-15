@@ -10,7 +10,9 @@
   "phone_not_found": "Phone number not found.",
   "phones_no_data": "Phones are empty.",
   "phone_updated": "Phone updated.",
+
   "address_empty": "Address is empty.",
+  "address_added": "Address added.",
 
   "birthday_added": "Birthday added.",
   "birthday_updated": "Birthday updated.",
