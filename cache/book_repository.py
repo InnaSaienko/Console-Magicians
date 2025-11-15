@@ -19,10 +19,9 @@ class BookRepository:
         
         try:
             with open(path, "rb") as file:
-                book = pickle.load(file)
-                return cls()
+                return pickle.load(file)
         except FileNotFoundError:
-            return cls()
+            return Book()
         except (pickle.UnpicklingError, EOFError, AttributeError, ImportError) as e:
             raise
 
