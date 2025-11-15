@@ -117,6 +117,3 @@ class Record:
 
     def update_birthday(self, value: Birthday):
         self.birthday = value
-
-    def add_address(self, address: Address):
-        self.address = address
