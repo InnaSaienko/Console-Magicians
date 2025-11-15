@@ -3,7 +3,7 @@ from handlers.book_handlers import (handle_add_contact,
                                     handle_delete_contact,
                                     handle_show_phone, handle_show_all_contacts, handle_upcoming_birthdays,
                                     handle_add_birthday, handle_show_birthday, handle_find_contact, handle_update_email,
-                                    handle_update_birthday, handle_find_email, handle_find_birthday, handle_add_address,handle_show_email,handle_add_email)
+                                    handle_update_birthday, handle_find_email, handle_find_birthday, handle_add_address,handle_show_email,handle_add_email,handle_show_address)
 from handlers.common_handlers import handle_exit, handle_hello
 from handlers.notes_handlers import handle_add_note, handle_delete_note, handle_update_note, handle_add_tag, \
     handle_update_tag, handle_show_contact_notes, handle_find_notes_by_tag, handle_delete_tag
@@ -17,6 +17,7 @@ COMMAND_TO_HANDLER = {
     'update-birthday': handle_update_birthday,
     'show-birthday': handle_show_birthday,
     'show-email':handle_show_email,
+    'show-address':handle_show_address,
     'upcoming-birthdays': handle_upcoming_birthdays,
     'add-address': handle_add_address,
     'find-contact': handle_find_contact,
