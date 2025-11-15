@@ -19,6 +19,20 @@ class Book(UserDict):
         else:
             return False
 
+    def find_by_email(self, email: str) -> list[Record] | None:
+        result = []
+        for record in self.data:
+            if record.find_email(email):
+                result.append(record)
+        return result
+
+    def find_by_birthday(self, birthday: str) -> list[Record] | None:
+        result = []
+        for record in self.data:
+            if record.birthday == birthday:
+                result.append(record)
+        return result
+
     def is_empty(self) -> bool:
         return not self.data
 

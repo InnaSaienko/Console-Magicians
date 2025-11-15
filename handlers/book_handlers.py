@@ -1,8 +1,10 @@
 import json
 from pathlib import Path
 from book.record import Record
-from book.fields_type import Name
+from book.fields_type import Name, Birthday, Email
 from display.display_records import show_records
+from utils.validation_birthday import validation_birthday
+from utils.validation_email import validation_email
 from utils.validation_phone import validation_phone
 from handlers.decorator_error import input_error
 
@@ -79,6 +81,24 @@ def handle_show_all_contacts(args, book):
 
 
 @input_error
+def handle_show_birthday(args, book):
+    name, *rest = args
+    record = book.find(name)
+    if not record:
+        return MESSAGES["contact_not_found"]
+    if not record.birthday:
+        return MESSAGES["birthday_not_found"]
+    return f"Birthday: {record.birthday}"
+
+@input_error
+def handle_find_contact(args, book):
+    name, *rest = args
+    record = book.find(name)
+    if not record:
+        return MESSAGES["contact_not_found"]
+    return str(record)
+
+@input_error
 def handle_upcoming_birthdays(args, book):
     if book.is_empty():
         return MESSAGES["empty_book"]
@@ -86,9 +106,65 @@ def handle_upcoming_birthdays(args, book):
         print(f'User={item.name}, birthday={item.congratulation_date}')
     return None
 
+@input_error
+def handle_add_birthday(args, book):
+    name, birthday = args
+    record = book.find(name)
+    if not record:
+        return MESSAGES["contact_not_found"]
+    record.add_birthday(birthday)
+    return MESSAGES["birthday_added"]
+
 def handle_welcome(_args, _book):
     return MESSAGES["welcome"]
 
 
 def handle_exit(_args, _book):
     raise StopIteration()
+
+
+@input_error
+def handle_update_email(args, book):
+    name, old_email, new_email = args
+    record = book.find(name)
+    if not record:
+        return MESSAGES["contact_not_found"]
+    email = record.find_email(old_email)
+    if not email:
+        return MESSAGES["email_not_found"]
+    if not validation_email(new_email):
+        return MESSAGES["email_validation_error"]
+    if not validation_email(old_email):
+        return MESSAGES["email_validation_error"]
+    record.update_email(old_email, new_email)
+    return MESSAGES['email_updated']
+
+@input_error
+def handle_update_birthday(args, book):
+    name, birthday = args
+    record = book.find(name)
+    if not record:
+        return MESSAGES["contact_not_found"]
+    if not validation_birthday(birthday):
+        return MESSAGES['birthday_validation_error']
+    record.update_birthday(Birthday(birthday))
+    return MESSAGES['birthday_updated']
+
+@input_error
+def handle_find_email(args, book):
+    email, *rest = args
+    records = book.find_by_email(email)
+    if not records:
+        return MESSAGES["contact_not_found"]
+
+    return show_records(records)
+
+@input_error
+def handle_find_birthday(args, book):
+    birthday, *rest = args
+    records = book.find_by_birthday(birthday)
+    if not records:
+        return MESSAGES["contact_not_found"]
+
+    return show_records(records)
+

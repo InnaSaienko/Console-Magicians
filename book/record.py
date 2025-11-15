@@ -29,12 +29,12 @@ class Record:
     def add_birthday(self, birthday) -> bool:
             self.birthday = Birthday(birthday)
             return True
-        
+
     def add_address(self, address_str: str) -> bool:
             self.address = Address(address_str)
-            return True    
-    
-        
+            return True
+
+
     def find_phone(self, phone: str) -> Optional[Phone]:
         return next((p for p in self.phones if p.value == phone), None)
 
@@ -46,58 +46,76 @@ class Record:
         return False
 
     def edit_phone(self, old_phone: str, new_phone: str) -> bool:
-        phone_to_edit = self.find_phone(old_phone) 
+        phone_to_edit = self.find_phone(old_phone)
         if phone_to_edit:
-            phone_to_edit.value = new_phone 
-            return True       
+            phone_to_edit.value = new_phone
+            return True
         return False
-    
+
     def add_note(self, note_obj: Note) -> bool:
         self.notes.append(note_obj)
         return True
-    
+
     def find_note_by_text(self, text: str) -> Optional[Note]:
         return next((n for n in self.notes if text in n.value.lower()), None)
-    
+
     def delete_note(self, text_keyword: str) -> bool:
         note_to_delete = self.find_note_by_text(text_keyword)
         if note_to_delete:
             self.notes.remove(note_to_delete)
             return True
         return False
-    
+
     def update_note(self, old_text_keyword: str, new_text: str) -> bool:
         note = self.find_note_by_text(old_text_keyword)
         if note:
             note.value = new_text
             return True
         return False
-    
-    def find_notes_by_tag(self, tag: str) -> list[Note]:        
+
+    def find_notes_by_tag(self, tag: str) -> list[Note]:
         normalized_tag = tag.strip().lower()
         return [
-            note for note in self.notes 
+            note for note in self.notes
             if normalized_tag in [t.lower() for t in note.tags]
         ]
-    
+
     def add_tag(self, note_text_keyword: str, tag: str) -> bool:
         note = self.find_note_by_text(note_text_keyword)
         if note:
-            return note.add_tag(tag) 
+            return note.add_tag(tag)
         return False
-    
+
     def update_tag(self, note_text_keyword: str, old_tag: str, new_tag: Optional[str] = None) -> bool:
         note = self.find_note_by_text(note_text_keyword)
         if not note:
-            return False 
+            return False
         deleted = note.delete_tag(old_tag)
         if deleted and new_tag:
             note.add_tag(new_tag)
             return True
         return deleted
-    
+
     def delete_tag(self, note_text_keyword: str, tag: str) -> bool:
         note = self.find_note_by_text(note_text_keyword)
         if note:
             return note.delete_tag(tag)
         return False
+
+    def find_email(self, email: str) -> Email | None:
+        for email in self.emails:
+            if email.value == email:
+                return email
+        return None
+
+    def update_email(self, old_email: str, new_email: str) -> bool:
+        for email in self.emails:
+            if email.value == old_email:
+                email.value = new_email
+                return True
+        return False
+
+    def update_birthday(self, value: Birthday):
+        self.birthday = value
+
+
