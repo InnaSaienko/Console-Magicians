@@ -19,6 +19,9 @@ class Book(UserDict):
         else:
             return False
 
+    def get_all_records(self) -> list[Record]:
+        return list(self.data.values())
+
     def find_by_email(self, email: str) -> list[Record] | None:
         result = []
         for record in self.data.values():
@@ -29,7 +32,7 @@ class Book(UserDict):
     def find_by_birthday(self, birthday: str) -> list[Record] | None:
         result = []
         for record in self.data.values():
-            if record.birthday == birthday:
+            if str(record.birthday) == birthday:
                 result.append(record)
         return result
 
