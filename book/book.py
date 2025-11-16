@@ -1,10 +1,14 @@
+"""Address book class for managing contact records."""
 from collections import UserDict
 from typing import Optional
+
 from book.record import Record
 from utils.get_upcoming_birthdays import get_birthdays
 
 
 class Book(UserDict):
+    """Address book that stores and manages contact records."""
+
     def add_record(self, record: Record) -> bool:
         self.data[record.name.value] = record
         return True
@@ -15,9 +19,8 @@ class Book(UserDict):
     def delete(self, name: str) -> bool:
         if name in self.data:
             del self.data[name]
-            return True        
-        else:
-            return False
+            return True
+        return False
 
     def get_all_records(self) -> list[Record]:
         return list(self.data.values())

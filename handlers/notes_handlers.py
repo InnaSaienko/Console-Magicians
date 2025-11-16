@@ -15,7 +15,11 @@ with open(MESSAGES_PATH, encoding="utf-8") as f:
 
 
 @input_error
-@validate_args(required=2, optional=1, error_msg='Expected command format: add-note NAME "NOTE TEXT" ["TAG..."]')
+@validate_args(
+    required=2,
+    optional=1,
+    error_msg='Expected command format: add-note NAME "NOTE TEXT" ["TAG..."]',
+)
 def handle_add_note(args, book: Book):
     name, note, *tags = args
     record = book.find(name.lower())
@@ -32,7 +36,11 @@ def handle_add_note(args, book: Book):
 
 
 @input_error
-@validate_args(required=3, optional=0, error_msg='Expected command format: add-tag NAME "KEYWORDS" NEW TAG')
+@validate_args(
+    required=3,
+    optional=0,
+    error_msg='Expected command format: add-tag NAME "KEYWORDS" NEW TAG',
+)
 def handle_add_tag(args, book: Book):
     name, keywords, new_tag = args
     record = book.find(name.lower())
@@ -41,17 +49,23 @@ def handle_add_tag(args, book: Book):
 
     matched_notes = []
     for kw in keywords:
-        matched_notes = [n for n in record.notes if kw.lower() in n.value.lower()]
+        matched_notes = [
+            n for n in record.notes if kw.lower() in n.value.lower()
+        ]
         if matched_notes:
             break
     for note in matched_notes:
         if new_tag not in note.tags:
             note.add_tag(new_tag)
         return MESSAGES["add_tag"]
-    
+
 
 @input_error
-@validate_args(required=3, optional=0, error_msg='Expected command format: update-note NAME KEYWORD "NOTE TEXT"')
+@validate_args(
+    required=3,
+    optional=0,
+    error_msg='Expected command format: update-note NAME KEYWORD "NOTE TEXT"',
+)
 def handle_update_note(args, book: Book):
     name, keyword, new_note = args
     record = book.find(name.lower())
@@ -59,12 +73,20 @@ def handle_update_note(args, book: Book):
         return MESSAGES["contact_not_found"]
 
     updated = record.update_note(keyword, new_note)
-    msg = MESSAGES["note_updated"] if updated else MESSAGES["note_does_not_exist"]
+    msg = (
+        MESSAGES["note_updated"]
+        if updated
+        else MESSAGES["note_does_not_exist"]
+    )
     return msg
 
 
 @input_error
-@validate_args(required=4, optional=0, error_msg='Expected command format: change-tag NAME KEYWORD OLDTAG NEWTAG')
+@validate_args(
+    required=4,
+    optional=0,
+    error_msg="Expected command format: change-tag NAME KEYWORD OLDTAG NEWTAG",
+)
 def handle_change_tag(args, book: Book):
     name, keyword, old_tag, new_tag = args
     record = book.find(name.lower())
@@ -75,8 +97,13 @@ def handle_change_tag(args, book: Book):
     msg = MESSAGES["tag_updated"] if updated else MESSAGES["no_find_tag"]
     return msg
 
+
 @input_error
-@validate_args(required=2, optional=0, error_msg='Expected command format: delete-note NAME KEYWORD')
+@validate_args(
+    required=2,
+    optional=0,
+    error_msg="Expected command format: delete-note NAME KEYWORD",
+)
 def handle_delete_note(args, book: Book):
     name, keyword = args
     record = book.find(name.lower())
@@ -90,7 +117,11 @@ def handle_delete_note(args, book: Book):
 
 
 @input_error
-@validate_args(required=3, optional=0, error_msg='Expected command format: delete-tag NAME NOTEKEYWORD TAG')
+@validate_args(
+    required=3,
+    optional=0,
+    error_msg="Expected command format: delete-tag NAME NOTEKEYWORD TAG",
+)
 def handle_delete_tag(args, book: Book):
     name, note_keyword, tag_to_delete = args
     record = book.find(name.lower())
@@ -102,10 +133,15 @@ def handle_delete_tag(args, book: Book):
         return MESSAGES["tag_deleted"]
     return MESSAGES["no_find_tag"]
 
+
 @input_error
-@validate_args(required=1, optional=0, error_msg='Expected command format: show-contact-notes NAMEG')
+@validate_args(
+    required=1,
+    optional=0,
+    error_msg="Expected command format: show-contact-notes NAMEG",
+)
 def handle_show_contact_notes(args, book: Book):
-    name, = args
+    (name,) = args
     record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
@@ -117,8 +153,12 @@ def handle_show_contact_notes(args, book: Book):
 
 
 @input_error
-@validate_args(required=2, optional=0, error_msg='Expected command format: find-notes-by-tag NAME TAG')
-def handle_find_notes_by_tag(args, book: Book) -> str |  None:
+@validate_args(
+    required=2,
+    optional=0,
+    error_msg="Expected command format: find-notes-by-tag NAME TAG",
+)
+def handle_find_notes_by_tag(args, book: Book) -> str | None:
     name, tag = args
     record = book.find(name.lower())
     if not record:
