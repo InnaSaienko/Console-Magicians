@@ -20,12 +20,14 @@ with open(MESSAGES_PATH, encoding="utf-8") as f:
 @input_error
 @validate_args(required=2, optional=1, error_msg="Expected command format: add-contact NAME PHONE [EMAIL]")
 def handle_add_contact(args, book):
-    name, phone, email = args
+    name, phone, *rest = args
+    email = rest[0] if rest else None
     record = book.find(name.lower())
     if record is None:
         record = Record(Name(name))
         record.add_phone(phone)
-        record.add_email(email)
+        if email:
+            record.add_email(email)
         book.add_record(record)
         return MESSAGES["contact_added"]
     else:
