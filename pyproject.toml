@@ -1,6 +1,6 @@
 # Black - Python code formatter
 [tool.black]
-line-length = 120
+line-length = 79
 target-version = ['py311', 'py312']
 extend-exclude = '''
 /(
@@ -16,5 +16,5 @@ extend-exclude = '''
 # isort - import sorter
 [tool.isort]
 profile = "black"
-line_length = 120
+line_length = 79
 skip_gitignore = true
