@@ -17,14 +17,15 @@ with open(MESSAGES_PATH, encoding="utf-8") as f:
 @input_error
 @validate_args(required=2, optional=1, error_msg='Expected command format: add-note NAME "NOTE TEXT" ["TAG..."]')
 def handle_add_note(args, book: Book):
-    name, note, tags = args
+    name, note, *tags = args
     record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
 
     note_obj = Note(note)
-    for tag in tags:
-        note_obj.add_tag(tag)
+    if tags:
+        for tag in tags:
+            note_obj.add_tag(tag)
 
     record.add_note(note_obj)
     return MESSAGES["note_added"]
