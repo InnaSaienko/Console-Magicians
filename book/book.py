@@ -39,5 +39,5 @@ class Book(UserDict):
     def is_empty(self) -> bool:
         return not self.data
 
-    def get_upcoming_birthdays(self) -> list[dict]:
-        return get_birthdays(self.data)
+    def get_upcoming_birthdays(self,days: int = 7) -> list[dict]:
+        return get_birthdays(self.data,days)

@@ -23,7 +23,7 @@ def get_birthdays(data: Dict[str, Any], days: int = 7) -> list[str]:
                 birthday_this_year = bd_date_obj.replace(year=today.year + 1) 
             
             diff_days = (birthday_this_year - today).days
-            if 0 <= diff_days <= 7:
+            if 0 <= diff_days <= days:
                 weekday = birthday_this_year.weekday()
                 birthday_this_year += timedelta(days=adjust_for_weekend(weekday))
             
