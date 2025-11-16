@@ -8,6 +8,8 @@ from utils.validation_birthday import validation_birthday
 from utils.validation_email import validation_email
 from utils.validation_phone import validation_phone
 from decorators.decorator_error import input_error
+from rich.table import Table
+from rich.console import Console
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 MESSAGES_PATH = BASE_DIR / "utils" / "messages.json"
@@ -127,11 +129,17 @@ def handle_upcoming_birthdays(args, book):
     upcoming_list = book.get_upcoming_birthdays()
     if not upcoming_list:
         return "No upcoming birthdays found"
-    output = ["Upcoming birthdays:"]
+    
+    table = Table(title="Upcoming Birthdays")
+    table.add_column("Contact Name", style="cyan", no_wrap=True)
+    table.add_column("Congratulation Date", style="magenta")
+
     for item in upcoming_list:
-        output.append(f"User: {item['name']}, Date: {item['date']}")
+        table.add_row(item['name'], item['date'])
+    console = Console()
+    console.print(table)    
         
-    return "\n".join(output)
+    return ""
 
 
 @input_error
