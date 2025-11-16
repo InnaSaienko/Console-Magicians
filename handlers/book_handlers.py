@@ -5,11 +5,11 @@ from book.record import Record
 from book.fields_type import Name, Birthday
 from decorators.decorator_args import validate_args
 from display.display_records import show_records
+from display.display_upcoming_birthdays import show_birthdays
 from utils.validation_birthday import validation_birthday
 from utils.validation_email import validation_email
 from utils.validation_phone import validation_phone
 from decorators.decorator_error import input_error
-from display.display_birthdays import show_birthdays
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 MESSAGES_PATH = BASE_DIR / "utils" / "messages.json"

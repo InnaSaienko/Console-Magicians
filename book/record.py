@@ -1,8 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
-
 from records import Record
-
 from book.fields_type import Name, Phone, Birthday, Email, Note, Address
 
 
@@ -75,7 +73,7 @@ class Record:
             return True
         return False
 
-    def find_notes_by_tag(self, tag: str) -> Record | None:
+    def find_notes_by_tag(self, tag: str) -> Optional[Record]:
         normalized = tag.strip().lower()
         filtered = [
             note for note in self.notes
