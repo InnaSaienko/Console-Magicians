@@ -3,7 +3,7 @@ from pathlib import Path
 
 from book.book import Book
 from book.fields_type import Note
-from handlers.decorator_error import input_error
+from decorators.decorator_error import input_error
 from display.display_notes import show_notes_for_record
 
 BASE_DIR = Path(__file__).resolve().parent.parent

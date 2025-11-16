@@ -2,12 +2,12 @@ import json
 from pathlib import Path
 
 from book.record import Record
-from book.fields_type import Name, Birthday, Email, Address
+from book.fields_type import Name, Birthday
 from display.display_records import show_records
 from utils.validation_birthday import validation_birthday
 from utils.validation_email import validation_email
 from utils.validation_phone import validation_phone
-from handlers.decorator_error import input_error
+from decorators.decorator_error import input_error
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 MESSAGES_PATH = BASE_DIR / "utils" / "messages.json"
@@ -18,9 +18,8 @@ with open(MESSAGES_PATH, encoding="utf-8") as f:
 @input_error
 def handle_add_contact(args, book):
     name, phone,*rest = args
-    email = rest[0] if rest else None 
-    normalized_name = name.strip().lower()
-    record = book.find(normalized_name)
+    email = rest[0] if rest else None
+    record = book.find(name.lower())
     if record is None:
         record = Record(Name(name))
         record.add_phone(phone)
@@ -35,7 +34,7 @@ def handle_add_contact(args, book):
 @input_error
 def handle_update_phone(args, book):
     name, old_phone, new_phone = args
-    record = book.find(name)
+    record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
     old_phone = validation_phone(old_phone)
@@ -46,7 +45,7 @@ def handle_update_phone(args, book):
 @input_error
 def handle_delete_contact(args, book):
     name, *rest = args
-    record = book.find(name)
+    record = book.find(name.lower())
     if not record:
         return MESSAGES ['contact_not_found']
     is_deleted = book.delete(record.name.value)
@@ -55,8 +54,7 @@ def handle_delete_contact(args, book):
 @input_error
 def handle_show_phone(args, book):
     name, *rest = args
-    normalized_name = name.strip().lower()
-    found_record = book.find(normalized_name)
+    found_record = book.find(name.lower())
     if found_record is None:
         return MESSAGES["contact_not_found"]
     if not found_record.phones:
@@ -66,8 +64,7 @@ def handle_show_phone(args, book):
 @input_error
 def handle_add_email(args, book):
     name, email = args
-    normalized_name = name.strip().lower()
-    record = book.find(normalized_name)
+    record = book.find(name.lower())
     if record is None:
         record = Record(Name(name))
         book.add_record(record)
@@ -78,8 +75,7 @@ def handle_add_email(args, book):
 @input_error
 def handle_show_email(args, book):
     name, *rest = args
-    normalized_name = name.strip().lower()
-    found_record = book.find(normalized_name)
+    found_record = book.find(name.lower())
     if found_record is None:
         return MESSAGES["contact_not_found"]
     if not found_record.emails:
@@ -88,8 +84,7 @@ def handle_show_email(args, book):
 
 def handle_show_address(args, book):
     name, *rest = args
-    normalized_name = name.strip().lower()
-    found_record = book.find(normalized_name)
+    found_record = book.find(name.lower())
     if found_record is None:
         return MESSAGES["contact_not_found"]
     if found_record.address is None:
@@ -108,7 +103,9 @@ def handle_show_all_contacts(args, book):
 @input_error
 def handle_show_birthday(args, book):
     name, *rest = args
-    record = book.find(name)
+    record = book.find(name.lower())
+    if not record:
+        return MESSAGES["contact_not_found"]
     if not record:
         return MESSAGES["contact_not_found"]
     if not record.birthday:
@@ -118,7 +115,7 @@ def handle_show_birthday(args, book):
 @input_error
 def handle_find_contact(args, book):
     name, *rest = args
-    record = book.find(name)
+    record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
     return str(record)
@@ -140,7 +137,7 @@ def handle_upcoming_birthdays(args, book):
 @input_error
 def handle_add_birthday(args, book):
     name, birthday = args
-    record = book.find(name)
+    record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
     record.add_birthday(birthday)
@@ -157,7 +154,7 @@ def handle_exit(_args, _book):
 @input_error
 def handle_update_email(args, book):
     name, old_email, new_email = args
-    record = book.find(name)
+    record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
     email = record.find_email(old_email)
@@ -173,7 +170,7 @@ def handle_update_email(args, book):
 @input_error
 def handle_update_birthday(args, book):
     name, birthday = args
-    record = book.find(name)
+    record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
     if not validation_birthday(birthday):
@@ -203,10 +200,9 @@ def handle_find_birthday(args, book):
 @input_error
 def handle_add_address(args, book):
     name = args[0]
-    normalized_name = name.strip().lower()
     address_parts = args[1:] 
     address_str = " ".join(address_parts)
-    record = book.find(normalized_name)
+    record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
     record.add_address(address_str)
