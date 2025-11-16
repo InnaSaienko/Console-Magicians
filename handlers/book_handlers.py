@@ -127,7 +127,6 @@ def handle_upcoming_birthdays(args, book):
         return MESSAGES["empty_book"]
     upcoming_list = book.get_upcoming_birthdays()
     show_birthdays(upcoming_list)
-    return ""
 
 
 @input_error
