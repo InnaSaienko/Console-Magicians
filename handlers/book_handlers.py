@@ -188,10 +188,14 @@ def handle_find_contact(args, book):
 
 
 @input_error
-def handle_upcoming_birthdays(_args, book):
+def handle_upcoming_birthdays(args, book):
     if book.is_empty():
         return MESSAGES["empty_book"]
-    upcoming_list = book.get_upcoming_birthdays()
+    if args:
+        days = int(args[0])
+        upcoming_list = book.get_upcoming_birthdays(days)
+    else:
+        upcoming_list = book.get_upcoming_birthdays()
     show_birthdays(upcoming_list)
 
 
