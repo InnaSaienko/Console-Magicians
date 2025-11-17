@@ -20,7 +20,7 @@ HELP_SECTIONS = [
         ("show-phone", "show-phone [name]", "Shows all stored phone numbers for the contact."),
         ("add-address", "add-address [name] [\"user address\"]", "Adds or updates a contact's address."),
         ("show-address", "show-address [name]", "Shows contact's address"),
-        ("upcoming-birthdays", "upcoming-birthdays", "Shows birthdays in next 7 days"),
+        ("upcoming-birthdays", "upcoming-birthdays [days]", "Displays upcoming birthdays for the specified period. Default days=7"),
         ("find-contact", "find-contact [name]", "Displays full contact information"),
         ("delete-contact", "delete-contact [name]", "Removes the contact from the address book."),
         ("all-contact", "all-contact", "Shows a full list of all contacts."),
