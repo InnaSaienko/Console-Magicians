@@ -85,10 +85,12 @@ class Record:
             if normalized in (t.lower() for t in note.tags)
         ]
 
-    def add_tag(self, note_text_keyword: str, tag: str) -> bool:
-        note = self.find_note_by_text(note_text_keyword)
-        if note:
-            return note.add_tag(tag.lower())
+    def add_tag(self, keywords: list[str], tag: str) -> bool:
+        for keyword in keywords:
+            note = self.find_note_by_text(keyword)
+            if note is None:
+                continue
+            return note.add_tag(tag)
         return False
 
     def change_tag(

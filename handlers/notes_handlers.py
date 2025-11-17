@@ -44,22 +44,12 @@ def handle_add_note(args, book: Book):
 )
 def handle_add_tag(args, book: Book):
     name, keywords, new_tag = args
-    new_tag = new_tag.lower()
     record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
 
-    matched_notes = []
-    for kw in keywords.split():
-        matched_notes = [
-            n for n in record.notes if kw in n.value
-        ]
-        if matched_notes:
-            break
-    for note in matched_notes:
-        if new_tag not in note.tags:
-            note.add_tag(new_tag)
-        return MESSAGES["add_tag"]
+    record.add_tag(keywords.lower().split(), new_tag.lower())
+    return MESSAGES["add_tag"]
 
 
 @input_error
@@ -80,7 +70,6 @@ def handle_update_note(args, book: Book):
         if updated
         else MESSAGES["note_does_not_exist"]
     )
-
 
 
 @input_error
