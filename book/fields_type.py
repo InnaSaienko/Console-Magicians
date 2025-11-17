@@ -76,19 +76,18 @@ class Note(Field):
 
     def add_tag(self, tag: str) -> bool:
         """Add a single tag."""
-        if tag in self.tags:
-            return False
         self.tags.append(tag)
         return True
 
-    def search_tag(self, keyword: str):
-        """Search for a tag by keyword."""
-        if not keyword:
-            raise ValueError("Invalid tag format.")
-
-        if keyword.lower() in self.tags:
-            return keyword.lower()
-        return False
+    def update_tag(self, old_tag: str, new_tag: str) -> bool:
+        """Update tag."""
+        try:
+            tag_idx = self.tags.index(old_tag)
+        except ValueError:
+            return False
+        else:
+            self.tags[tag_idx] = new_tag
+        return True
 
     def delete_tag(self, tag: str) -> bool:
         """Delete a tag from the note."""

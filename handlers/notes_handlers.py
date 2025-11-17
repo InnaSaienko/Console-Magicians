@@ -96,7 +96,7 @@ def handle_change_tag(args, book: Book):
     if not record:
         return MESSAGES["contact_not_found"]
 
-    updated = record.change_tag(keyword, old_tag.lower(), new_tag.lower())
+    updated = record.change_tag(keyword.lower(), old_tag.lower(), new_tag.lower())
     return MESSAGES["tag_updated"] if updated else MESSAGES["no_find_tag"]
 
 
