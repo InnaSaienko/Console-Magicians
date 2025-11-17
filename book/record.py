@@ -95,7 +95,7 @@ class Record:
             self,
             note_text_keyword: str,
             old_tag: str,
-            new_tag: Optional[str] = None
+            new_tag: str
     ) -> bool:
         deleted = self.delete_tag(note_text_keyword, old_tag)
         if deleted and new_tag:
