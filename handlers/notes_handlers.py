@@ -64,7 +64,7 @@ def handle_update_note(args, book: Book):
     if not record:
         return MESSAGES["contact_not_found"]
 
-    updated = record.update_note(keyword, new_note.lower())
+    updated = record.update_note(keyword.lower(), new_note.lower())
     return (
         MESSAGES["note_updated"]
         if updated
