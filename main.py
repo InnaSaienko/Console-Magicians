@@ -2,12 +2,15 @@ from rich import print
 from handlers.autocomplete_handler import read_input
 from handlers.process_command import process_command
 from cache.book_repository import BookRepository
+from display.display_help import show_help
+
 
 
 def main():
     repository = BookRepository()
     book = repository.load()
     print("[bold]\nWelcome to the assistant bot![/bold]\n")
+    show_help()
     while True:
         try:
             command, args = read_input()
