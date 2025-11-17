@@ -44,7 +44,6 @@ def handle_add_note(args, book: Book):
 )
 def handle_add_tag(args, book: Book):
     name, keywords, new_tag = args
-    new_tag = new_tag.lower()
     record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
@@ -71,7 +70,6 @@ def handle_update_note(args, book: Book):
         if updated
         else MESSAGES["note_does_not_exist"]
     )
-
 
 @input_error
 @validate_args(
