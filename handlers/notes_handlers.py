@@ -1,18 +1,14 @@
-import json
-from pathlib import Path
-
 from book.book import Book
 from book.fields_type import Note
 from decorators.decorator_args import validate_args
 from decorators.decorator_error import input_error
 from display.display_notes import show_notes_for_record
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-MESSAGES_PATH = BASE_DIR / "utils" / "messages.json"
-
-with open(MESSAGES_PATH, encoding="utf-8") as f:
-    MESSAGES = json.load(f)
-
+from utils.messages import (
+    MESSAGES, CONTACT_NOT_FOUND_MESSAGE_KEY, NOTE_ADDED_MESSAGE_KEY,
+    NO_FIND_TAG_MESSAGE_KEY, ADD_TAG_MESSAGE_KEY, NOTE_UPDATED_MESSAGE_KEY,
+    TAG_UPDATED_MESSAGE_KEY, NOTE_DELETED_MESSAGE_KEY,
+    TAG_DELETED_MESSAGE_KEY, NO_NOTES_EXIST_MESSAGE_KEY, NOTE_DOES_NOT_EXIST_MESSAGE_KEY
+)
 
 @input_error
 @validate_args(
@@ -24,7 +20,7 @@ def handle_add_note(args, book: Book):
     name, note_text, *tags_text = args
     record = book.find(name.lower())
     if not record:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
 
     note = Note(note_text)
     if tags_text:
@@ -33,7 +29,7 @@ def handle_add_note(args, book: Book):
             note.add_tag(tag)
 
     record.add_note(note)
-    return MESSAGES["note_added"]
+    return MESSAGES[NOTE_ADDED_MESSAGE_KEY]
 
 
 @input_error
@@ -46,10 +42,10 @@ def handle_add_tag(args, book: Book):
     name, keywords, new_tag = args
     record = book.find(name.lower())
     if not record:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
 
     record.add_tag(keywords.lower().split(), new_tag.lower())
-    return MESSAGES["add_tag"]
+    return MESSAGES[ADD_TAG_MESSAGE_KEY]
 
 
 @input_error
@@ -62,14 +58,15 @@ def handle_update_note(args, book: Book):
     name, keyword, new_note = args
     record = book.find(name.lower())
     if not record:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
 
     updated = record.update_note(keyword.lower(), new_note.lower())
     return (
-        MESSAGES["note_updated"]
+        MESSAGES[NOTE_UPDATED_MESSAGE_KEY]
         if updated
-        else MESSAGES["note_does_not_exist"]
+        else MESSAGES[NOTE_DOES_NOT_EXIST_MESSAGE_KEY]
     )
+
 
 @input_error
 @validate_args(
@@ -82,10 +79,10 @@ def handle_change_tag(args, book: Book):
     record = book.find(name.lower())
 
     if not record:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
 
     updated = record.change_tag(keyword.lower(), old_tag.lower(), new_tag.lower())
-    return MESSAGES["tag_updated"] if updated else MESSAGES["no_find_tag"]
+    return MESSAGES[TAG_UPDATED_MESSAGE_KEY] if updated else MESSAGES[NO_FIND_TAG_MESSAGE_KEY]
 
 
 
@@ -99,12 +96,12 @@ def handle_delete_note(args, book: Book):
     name, keyword = args
     record = book.find(name.lower())
     if not record:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
 
     response = record.delete_note(keyword.lower())
     if response:
-        return MESSAGES["note_deleted"]
-    return MESSAGES["no_delete_note"]
+        return MESSAGES[NOTE_DELETED_MESSAGE_KEY]
+    return MESSAGES[NOTE_DOES_NOT_EXIST_MESSAGE_KEY]
 
 
 @input_error
@@ -117,12 +114,12 @@ def handle_delete_tag(args, book: Book):
     name, note_keyword, tag_to_delete = args
     record = book.find(name.lower())
     if not record:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
 
     response = record.delete_tag(note_keyword.lower(), tag_to_delete.lower())
     if response:
-        return MESSAGES["tag_deleted"]
-    return MESSAGES["no_find_tag"]
+        return MESSAGES[TAG_DELETED_MESSAGE_KEY]
+    return MESSAGES[NO_FIND_TAG_MESSAGE_KEY]
 
 
 @input_error
@@ -135,10 +132,10 @@ def handle_show_contact_notes(args, book: Book):
     (name,) = args
     record = book.find(name.lower())
     if not record:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
 
     if not record.notes:
-        return MESSAGES["note_does_not_exict"]
+        return MESSAGES[NO_NOTES_EXIST_MESSAGE_KEY]
 
     show_notes_for_record(record)
     return ""
@@ -154,11 +151,11 @@ def handle_find_notes_by_tag(args, book: Book) -> str | None:
     name, tag = args
     record = book.find(name.lower())
     if not record:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
 
     matches = record.find_notes_by_tag(tag.lower())
     if not matches:
-        return MESSAGES["no_find_tag"]
+        return MESSAGES[NO_FIND_TAG_MESSAGE_KEY]
 
     show_notes_for_record(matches)
     return ""

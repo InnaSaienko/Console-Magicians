@@ -32,6 +32,7 @@
   "note_added": "Note was successfully added",
   "note_updated": "Note successfully updated",
   "note_does_not_exist": "No matching note was found",
+  "no_notes_exist": "No notes were found",
   "note_deleted": "Note was deleted",
 
   "show_all_title": "All contacts:",
@@ -49,5 +50,6 @@
   "email_no_data": "Email is empty",
   "email_not_found": "Email not found",
   "email_updated": "Email updated",
-  "email_validation_error": "Email is not valid."
+  "email_validation_error": "Email is not valid.",
+  "emails_no_data": "Email is empty"
 }
