@@ -21,9 +21,10 @@ class BookRepository:
             with open(path, "rb") as file:
                 return pickle.load(file)
         except FileNotFoundError:
-            return Book()
-        except (pickle.UnpicklingError, EOFError, AttributeError, ImportError) as e:
-            raise
+            return cls()
+        except Exception as e:
+            print("WARNING: Data load failed (Empty/Corrupted file). A brand new address book will be created.\n")
+            return cls()
 
     @classmethod
     def save(cls, book: Book, file_path=FILE_PATH):
@@ -33,4 +34,4 @@ class BookRepository:
             with open(path, "wb") as file:
                 pickle.dump(book, file)
         except Exception as e:
-            raise
+            print(f"ERROR: Failed to save data to file '{path}': {e}")
