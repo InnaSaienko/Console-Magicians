@@ -31,6 +31,9 @@ def handle_add_contact(args, book):
         book.add_record(record)
         return MESSAGES["contact_added"]
     else:
+        existing_phones = [p.value for p in record.phones]
+        if phone in existing_phones:
+            return f"The number {phone} already exists in the contact {name}."
         record.add_phone(phone)
     return MESSAGES["change_success"]
 
