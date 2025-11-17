@@ -44,6 +44,7 @@ def handle_add_note(args, book: Book):
 )
 def handle_add_tag(args, book: Book):
     name, keywords, new_tag = args
+    new_tag = new_tag.lower()
     record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
@@ -160,6 +161,5 @@ def handle_find_notes_by_tag(args, book: Book) -> str | None:
     matches = record.find_notes_by_tag(tag.lower())
     if not matches:
         return MESSAGES["no_find_tag"]
-
     show_notes_for_record(matches)
     return ""
