@@ -6,5 +6,5 @@ def validation_birthday(value: str) -> bool:
         # parsing wrong string will raise an error if format is not suitable.
         datetime.strptime(value, "%d.%m.%Y")
         return True
-    except Exception:
+    except ValueError:
         return False
