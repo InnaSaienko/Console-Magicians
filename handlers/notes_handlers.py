@@ -159,5 +159,6 @@ def handle_find_notes_by_tag(args, book: Book) -> str | None:
     matches = record.find_notes_by_tag(tag.lower())
     if not matches:
         return MESSAGES["no_find_tag"]
+
     show_notes_for_record(matches)
     return ""
