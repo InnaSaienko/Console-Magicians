@@ -75,14 +75,11 @@ class Note(Field):
     tags: List[str] = field(default_factory=list)
 
     def add_tag(self, tag: str) -> bool:
-        """Add one or more space-separated tags."""
-        parts = [t.strip().lower() for t in tag.split() if t.strip()]
-        added = False
-        for p in parts:
-            if p not in self.tags:
-                self.tags.append(p)
-                added = True
-        return added
+        """Add a single tag."""
+        if tag in self.tags:
+            return False
+        self.tags.append(tag)
+        return True
 
     def search_tag(self, keyword: str):
         """Search for a tag by keyword."""
