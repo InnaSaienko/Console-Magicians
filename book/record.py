@@ -91,18 +91,16 @@ class Record:
             return note.add_tag(tag.lower())
         return False
 
-    def update_tag(
-        self,
-        note_text_keyword: str,
-        old_tag: str,
-        new_tag: Optional[str] = None,
+    def change_tag(
+            self,
+            note_text_keyword: str,
+            old_tag: str,
+            new_tag: Optional[str] = None
     ) -> bool:
-        note = self.find_note_by_text(note_text_keyword)
-        if not note:
-            return False
-        deleted = note.delete_tag(old_tag)
+        deleted = self.delete_tag(note_text_keyword, old_tag)
         if deleted and new_tag:
-            note.add_tag(new_tag)
+            note = self.find_note_by_text(note_text_keyword)
+            note.add_tag(new_tag.lower())
             return True
         return deleted
 
