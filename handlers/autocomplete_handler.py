@@ -33,7 +33,7 @@ def read_input():
     try:
         user_input = session.prompt("Enter a command: ", completer=commands)
         command, args = parse_input(user_input)
-    except EOFError:
+    except (EOFError, KeyboardInterrupt):
         command, args = "exit", []
 
     return command, args

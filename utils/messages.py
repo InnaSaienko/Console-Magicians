@@ -1,4 +1,3 @@
-import sys
 import json
 from json import JSONDecodeError
 from pathlib import Path
@@ -55,11 +54,10 @@ EMAIL_NO_DATA_MESSAGE_KEY: str = "email_no_data"
 EMAIL_NOT_FOUND_MESSAGE_KEY: str = "email_not_found"
 EMAIL_UPDATED_MESSAGE_KEY: str = "email_updated"
 EMAIL_VALIDATION_ERROR_MESSAGE_KEY: str = "email_validation_error"
-EMAIL_NO_DATA_MESSAGE_KEY: str = "email_no_data"
 
 
 def _get_messages():
-    message_file = Path(sys.argv[0]).absolute().parent / "resources" / "messages.json"
+    message_file = Path("resources") / "messages.json"
 
     try:
         with open(message_file, encoding="utf-8") as f:
