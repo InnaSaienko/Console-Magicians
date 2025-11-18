@@ -76,6 +76,8 @@ class Note(Field):
 
     def add_tag(self, tag: str) -> bool:
         """Add a single tag."""
+        if tag not in self.tags:
+            return False
         self.tags.append(tag)
         return True
 
