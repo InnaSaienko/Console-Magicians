@@ -169,8 +169,6 @@ def handle_show_birthday(args, book):
     record = book.find(name.lower())
     if not record:
         return MESSAGES["contact_not_found"]
-    if not record:
-        return MESSAGES["contact_not_found"]
     if not record.birthday:
         return MESSAGES["birthday_not_found"]
     return f"Birthday: {record.birthday}"
