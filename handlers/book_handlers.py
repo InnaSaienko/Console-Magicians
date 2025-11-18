@@ -109,8 +109,7 @@ def handle_add_email(args, book):
     name, email = args
     record = book.find(name.lower())
     if record is None:
-        record = Record(Name(name))
-        book.add_record(record)
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
     record.add_email(email)
     return MESSAGES[CONTACT_ADDED_MESSAGE_KEY]
 
@@ -197,8 +196,10 @@ def handle_upcoming_birthdays(args, book):
         upcoming_list = book.get_upcoming_birthdays(days)
     else:
         upcoming_list = book.get_upcoming_birthdays()
-    show_birthdays(upcoming_list)
-    return ""
+    if not upcoming_list:
+        return None
+    
+    return show_birthdays(upcoming_list)
 
 
 @input_error
