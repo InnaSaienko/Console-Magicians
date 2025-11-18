@@ -21,6 +21,8 @@ class HintsCompleter(Completer):
 
 def parse_input(user_input):
     parts = shlex.split(user_input)
+    if not parts:
+        return None, None
     cmd, *args = parts
     cmd = cmd.lower()
     return cmd, args

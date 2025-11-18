@@ -18,6 +18,8 @@ def main():
     while True:
         try:
             command, args = read_input()
+            if command is None:
+                continue
             result = process_command(command, args, book)
             if result is not None:
                 print(result)
