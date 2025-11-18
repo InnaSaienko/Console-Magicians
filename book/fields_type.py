@@ -75,23 +75,19 @@ class Note(Field):
     tags: List[str] = field(default_factory=list)
 
     def add_tag(self, tag: str) -> bool:
-        """Add one or more space-separated tags."""
-        parts = [t.strip().lower() for t in tag.split() if t.strip()]
-        added = False
-        for p in parts:
-            if p not in self.tags:
-                self.tags.append(p)
-                added = True
-        return added
+        """Add a single tag."""
+        self.tags.append(tag)
+        return True
 
-    def search_tag(self, keyword: str):
-        """Search for a tag by keyword."""
-        if not keyword:
-            raise ValueError("Invalid tag format.")
-
-        if keyword.lower() in self.tags:
-            return keyword.lower()
-        return False
+    def update_tag(self, old_tag: str, new_tag: str) -> bool:
+        """Update tag."""
+        try:
+            tag_idx = self.tags.index(old_tag)
+        except ValueError:
+            return False
+        else:
+            self.tags[tag_idx] = new_tag
+        return True
 
     def delete_tag(self, tag: str) -> bool:
         """Delete a tag from the note."""

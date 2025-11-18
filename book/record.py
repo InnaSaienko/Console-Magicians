@@ -85,26 +85,22 @@ class Record:
             if normalized in (t.lower() for t in note.tags)
         ]
 
-    def add_tag(self, note_text_keyword: str, tag: str) -> bool:
-        note = self.find_note_by_text(note_text_keyword)
-        if note:
-            return note.add_tag(tag.lower())
+    def add_tag(self, keywords: list[str], tag: str) -> bool:
+        for keyword in keywords:
+            note = self.find_note_by_text(keyword)
+            if note is None:
+                continue
+            return note.add_tag(tag)
         return False
 
-    def update_tag(
-        self,
-        note_text_keyword: str,
-        old_tag: str,
-        new_tag: Optional[str] = None,
+    def change_tag(
+            self,
+            note_text_keyword: str,
+            old_tag: str,
+            new_tag: str
     ) -> bool:
         note = self.find_note_by_text(note_text_keyword)
-        if not note:
-            return False
-        deleted = note.delete_tag(old_tag)
-        if deleted and new_tag:
-            note.add_tag(new_tag)
-            return True
-        return deleted
+        return note.update_tag(old_tag, new_tag)
 
     def delete_tag(self, note_keyword: str, tag_to_delete: str) -> bool:
         note = self.find_note_by_text(note_keyword)
