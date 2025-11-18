@@ -1,5 +1,3 @@
-# import pytest
-# from book.book import Book
 from handlers.book_handlers import (
     handle_add_contact, handle_add_birthday, handle_update_birthday,
     handle_show_birthday, handle_find_birthday, handle_add_email,
@@ -12,9 +10,6 @@ from handlers.notes_handlers import (
     handle_add_note, handle_change_tag, handle_delete_tag, handle_add_tag, handle_update_note, handle_delete_note, 
     handle_find_notes_by_tag, handle_show_contact_notes
 )
-# @pytest.fixture
-# def book():
-#     return Book()
 
 
 def test_add_contact(book):
@@ -131,7 +126,7 @@ def test_add_note(book):
 
 
 def test_add_tag(book):
-    handle_add_contact(["ron", "+38050000000"], book)
+    handle_add_contact(["ron", "+380988303034"], book)
     handle_add_note(["ron", "Buy wand", "shop"], book)
 
     msg = handle_add_tag(["ron", "buy", "magic"], book)
@@ -142,7 +137,7 @@ def test_add_tag(book):
     
 
 def test_update_note(book):
-    handle_add_contact(["Luna", "+380501234567"], book)
+    handle_add_contact(["Luna", "+380981234567"], book)
     handle_add_note(["Luna", "Old note", "dream"], book)
 
     msg = handle_update_note(["Luna", "old", "New updated note"], book)
@@ -153,11 +148,11 @@ def test_update_note(book):
 
 
 def test_update_note_not_found(book):
-    handle_add_contact(["ginny", "+38050999999"], book)
+    handle_add_contact(["ginny", "+380968303034"], book)
     handle_add_note(["ginny", "Text", ""], book)
 
-    msg = handle_update_note(["ginny", "nope", "New text"], book)
-    assert "does not exist" in msg.lower()
+    msg = handle_update_note(["ginny", "note", "New text"], book)
+    assert "No matching note was found" == msg
     
 
 def test_change_tag(book):

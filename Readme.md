@@ -90,3 +90,7 @@ git commit -m "Your message"
 ```bash
 pre-commit run --all-files
 ```
+Запустити unit-test:
+```bash 
+pytest
+```
