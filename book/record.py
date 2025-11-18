@@ -1,11 +1,14 @@
+"""Contact record class with all related fields and methods."""
 from dataclasses import dataclass, field
 from typing import List, Optional
-from records import Record
-from book.fields_type import Name, Phone, Birthday, Email, Note, Address
+
+from book.fields_type import Address, Birthday, Email, Name, Note, Phone
 
 
 @dataclass
 class Record:
+    """Contact record containing name, phones, emails, birthday, etc."""
+
     name: Name
     birthday: Optional[Birthday] = None
     phones: List[Phone] = field(default_factory=list)
@@ -14,26 +17,27 @@ class Record:
     notes: List[Note] = field(default_factory=list)
 
     def __str__(self):
-        phone_str = '; '.join(p.value for p in self.phones)
-
-        return f"Contact name: {self.name.value}, birthday: {self.birthday}, phones: {phone_str}"
+        phone_str = "; ".join(p.value for p in self.phones)
+        return (
+            f"Contact name: {self.name.value}, "
+            f"birthday: {self.birthday}, phones: {phone_str}"
+        )
 
     def add_phone(self, phone: str) -> bool:
-            self.phones.append(Phone(phone))
-            return True
-
+        self.phones.append(Phone(phone))
+        return True
 
     def add_email(self, email: str) -> bool:
-            self.emails.append(Email(email))
-            return True
+        self.emails.append(Email(email))
+        return True
 
     def add_birthday(self, birthday) -> bool:
-            self.birthday = Birthday(birthday)
-            return True
+        self.birthday = Birthday(birthday)
+        return True
 
     def add_address(self, address_str: str) -> bool:
-            self.address = Address(address_str)
-            return True
+        self.address = Address(address_str)
+        return True
 
     def find_phone(self, phone: str) -> Optional[Phone]:
         return next((p for p in self.phones if p.value == phone), None)
@@ -73,18 +77,13 @@ class Record:
             return True
         return False
 
-    def find_notes_by_tag(self, tag: str) -> Optional[Record]:
+    def find_notes_by_tag(self, tag: str) -> list[Note]:
         normalized = tag.strip().lower()
-        filtered = [
-            note for note in self.notes
+        return [
+            note
+            for note in self.notes
             if normalized in (t.lower() for t in note.tags)
         ]
-        if not filtered:
-            return None
-
-        new_record = Record(self.name)
-        new_record.notes = filtered
-        return new_record
 
     def add_tag(self, note_text_keyword: str, tag: str) -> bool:
         note = self.find_note_by_text(note_text_keyword)
@@ -92,7 +91,12 @@ class Record:
             return note.add_tag(tag.lower())
         return False
 
-    def update_tag(self, note_text_keyword: str, old_tag: str, new_tag: Optional[str] = None) -> bool:
+    def update_tag(
+        self,
+        note_text_keyword: str,
+        old_tag: str,
+        new_tag: Optional[str] = None,
+    ) -> bool:
         note = self.find_note_by_text(note_text_keyword)
         if not note:
             return False

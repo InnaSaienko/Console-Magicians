@@ -1,7 +1,8 @@
-from rich.table import Table
 from rich.console import Console
+from rich.table import Table
 
 console = Console(record=True)
+
 
 def show_birthdays(records, title="Upcoming Birthdays"):
     if not records:
@@ -13,6 +14,6 @@ def show_birthdays(records, title="Upcoming Birthdays"):
     table.add_column("Congratulation date", style="magenta")
 
     for record in records:
-        table.add_row(record['name'], record['date'])
+        table.add_row(record["name"], record["date"])
 
     console.print(table)

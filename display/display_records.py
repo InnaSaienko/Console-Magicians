@@ -3,6 +3,7 @@ from rich.table import Table
 
 console = Console(record=True)
 
+
 def show_records(records, title="Contacts"):
     if not records:
         console.print("[yellow]No records found[/yellow]")
@@ -24,6 +25,8 @@ def show_records(records, title="Contacts"):
         address = "+" if record.address else "-"
         notes = "+" if record.notes else "-"
         tags = "+" if any(n.tags for n in record.notes) else "-"
-        table.add_row(record.name.value, birthday, phones, emails, address, notes, tags)
+        table.add_row(
+            record.name.value, birthday, phones, emails, address, notes, tags
+        )
 
     console.print(table)

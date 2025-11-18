@@ -1,0 +1,20 @@
+# Black - Python code formatter
+[tool.black]
+line-length = 79
+target-version = ['py311', 'py312']
+extend-exclude = '''
+/(
+  \.git
+  | \.venv
+  | venv
+  | build
+  | dist
+  | __pycache__
+)/
+'''
+
+# isort - import sorter
+[tool.isort]
+profile = "black"
+line_length = 79
+skip_gitignore = true
