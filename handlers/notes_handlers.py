@@ -76,7 +76,7 @@ def handle_update_note(args, book: Book):
 @validate_args(
     required=4,
     optional=0,
-    error_msg='Expected command format: change-tag NAME KEYWORD OLD_TAG NEW_TAG'
+    error_msg="Expected command format: change-tag NAME KEYWORD OLD_TAG NEW_TAG"
 )
 def handle_change_tag(args, book: Book):
     name, keyword, old_tag, new_tag = args
@@ -112,7 +112,7 @@ def handle_delete_note(args, book: Book):
 @validate_args(
     required=3,
     optional=0,
-    error_msg='Expected command format: delete-tag NAME KEYWORD TAG'
+    error_msg="Expected command format: delete-tag NAME KEYWORD TAG"
 )
 def handle_delete_tag(args, book: Book):
     name, note_keyword, tag_to_delete = args
@@ -130,7 +130,7 @@ def handle_delete_tag(args, book: Book):
 @validate_args(
     required=1,
     optional=0,
-    error_msg='Expected command format: show-contact-notes NAME'
+    error_msg="Expected command format: show-contact-notes NAME"
 )
 def handle_show_contact_notes(args, book: Book):
     (name,) = args
