@@ -1,5 +1,6 @@
 import sys
 import json
+from json import JSONDecodeError
 from pathlib import Path
 
 WELCOME_MESSAGE_KEY: str = "welcome"
@@ -60,9 +61,11 @@ EMAIL_NO_DATA_MESSAGE_KEY: str = "email_no_data"
 def _get_messages():
     message_file = Path(sys.argv[0]).absolute().parent / "resources" / "messages.json"
 
-    with open(message_file, encoding="utf-8") as f:
-        return json.load(f)
-
+    try:
+        with open(message_file, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, JSONDecodeError, UnicodeDecodeError) as e:
+        raise RuntimeError(f'Fatal: could not obtain interface massages from "{message_file}"') from e
 
 def _validated_keys(messages: dict[str,str]) -> dict[str,str]:
     required_keys = set(v for k, v in globals().items() if k.endswith("_MESSAGE_KEY"))
@@ -72,6 +75,7 @@ def _validated_keys(messages: dict[str,str]) -> dict[str,str]:
             "Error loading messages.json: key(s) "
             f"'{', '.join(missing_keys)}' were not found in messages.json"
         )
+    return messages
 
 
 MESSAGES = _validated_keys(_get_messages())
