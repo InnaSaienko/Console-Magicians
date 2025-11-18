@@ -1,9 +1,8 @@
 from display.display_help import show_help
-from handlers.book_handlers import MESSAGES
-
+from utils.messages import MESSAGES, WELCOME_MESSAGE_KEY
 
 def handle_hello(_args, _book):
-    return MESSAGES["welcome"]
+    return MESSAGES[WELCOME_MESSAGE_KEY]
 
 
 def handle_help(_args, _book):

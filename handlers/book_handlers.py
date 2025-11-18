@@ -1,6 +1,3 @@
-import json
-from pathlib import Path
-
 from book.fields_type import Birthday, Name
 from book.record import Record
 from decorators.decorator_args import validate_args
@@ -11,11 +8,17 @@ from utils.validation_birthday import validation_birthday
 from utils.validation_email import validation_email
 from utils.validation_phone import validation_phone
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-MESSAGES_PATH = BASE_DIR / "utils" / "messages.json"
-
-with open(MESSAGES_PATH, encoding="utf-8") as f:
-    MESSAGES = json.load(f)
+from utils.messages import (
+    MESSAGES, CONTACT_ADDED_MESSAGE_KEY, CHANGE_SUCCESS_MESSAGE_KEY,
+    CONTACT_NOT_FOUND_MESSAGE_KEY, ADDRESS_ADDED_MESSAGE_KEY,
+    PHONE_UPDATED_MESSAGE_KEY, PHONE_NOT_FOUND_MESSAGE_KEY,
+    SUCCESS_DELETED_MESSAGE_KEY, PHONES_NO_DATA_MESSAGE_KEY,
+    EMAIL_NO_DATA_MESSAGE_KEY, ADDRESS_NOT_FOUND_MESSAGE_KEY,
+    EMPTY_BOOK_MESSAGE_KEY, BIRTHDAY_ADDED_MESSAGE_KEY,
+    BIRTHDAY_NOT_FOUND_MESSAGE_KEY, EMAIL_NOT_FOUND_MESSAGE_KEY,
+    EMAIL_UPDATED_MESSAGE_KEY, EMAIL_VALIDATION_ERROR_MESSAGE_KEY,
+    BIRTHDAY_VALIDATION_ERROR_MESSAGE_KEY, BIRTHDAY_UPDATED_MESSAGE_KEY
+)
 
 
 @input_error
@@ -34,13 +37,13 @@ def handle_add_contact(args, book):
         if email:
             record.add_email(email)
         book.add_record(record)
-        return MESSAGES["contact_added"]
+        return MESSAGES[CONTACT_ADDED_MESSAGE_KEY]
     else:
         existing_phones = [p.value for p in record.phones]
         if phone in existing_phones:
             return f"The number {phone} already exists in the contact {name}."
         record.add_phone(phone)
-    return MESSAGES["change_success"]
+    return MESSAGES[CHANGE_SUCCESS_MESSAGE_KEY]
 
 
 @input_error
@@ -53,14 +56,13 @@ def handle_update_phone(args, book):
     name, old_phone, new_phone = args
     record = book.find(name.lower())
     if not record:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
     old_phone = validation_phone(old_phone)
     new_phone = validation_phone(new_phone)
     is_edited = record.edit_phone(old_phone, new_phone)
     return (
-        MESSAGES["phone_updated"] if is_edited else MESSAGES["phone_not_found"]
+        MESSAGES[PHONE_UPDATED_MESSAGE_KEY] if is_edited else MESSAGES [PHONE_NOT_FOUND_MESSAGE_KEY]
     )
-
 
 @input_error
 @validate_args(
@@ -72,14 +74,13 @@ def handle_delete_contact(args, book):
     (name,) = args
     record = book.find(name.lower())
     if not record:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES [CONTACT_NOT_FOUND_MESSAGE_KEY]
     is_deleted = book.delete(record.name.value)
     return (
-        MESSAGES["success_deleted"]
+        MESSAGES[SUCCESS_DELETED_MESSAGE_KEY]
         if is_deleted
-        else MESSAGES["contact_not_found"]
+        else MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
     )
-
 
 @input_error
 @validate_args(
@@ -91,9 +92,9 @@ def handle_show_phone(args, book):
     (name,) = args
     found_record = book.find(name.lower())
     if found_record is None:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
     if not found_record.phones:
-        return MESSAGES["phones_no_data"]
+        return MESSAGES[PHONES_NO_DATA_MESSAGE_KEY]
     phones = "; ".join(item.value for item in found_record.phones)
     return f"Phones: {phones}"
 
@@ -111,7 +112,7 @@ def handle_add_email(args, book):
         record = Record(Name(name))
         book.add_record(record)
     record.add_email(email)
-    return MESSAGES["contact_added"]
+    return MESSAGES[CONTACT_ADDED_MESSAGE_KEY]
 
 
 @input_error
@@ -124,9 +125,9 @@ def handle_show_email(args, book):
     (name,) = args
     found_record = book.find(name.lower())
     if found_record is None:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
     if not found_record.emails:
-        return MESSAGES["emails_no_data"]
+        return MESSAGES[EMAIL_NO_DATA_MESSAGE_KEY]
     emails = "; ".join(item.value for item in found_record.emails)
     return f"Emails: {emails}"
 
@@ -141,18 +142,17 @@ def handle_show_address(args, book):
     (name,) = args
     found_record = book.find(name.lower())
     if found_record is None:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
     if found_record.address is None:
-        return MESSAGES["address-not-found"]
+        return MESSAGES[ADDRESS_NOT_FOUND_MESSAGE_KEY]
     return (
         f"Address for {found_record.name.value}: {found_record.address.value}"
     )
 
-
 @input_error
 def handle_show_all_contacts(args, book):
     if book.is_empty():
-        return MESSAGES["empty_book"]
+        return MESSAGES[EMPTY_BOOK_MESSAGE_KEY]
 
     show_records(book.get_all_records())
     return None
@@ -168,9 +168,9 @@ def handle_show_birthday(args, book):
     (name,) = args
     record = book.find(name.lower())
     if not record:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
     if not record.birthday:
-        return MESSAGES["birthday_not_found"]
+        return MESSAGES[BIRTHDAY_NOT_FOUND_MESSAGE_KEY]
     return f"Birthday: {record.birthday}"
 
 
@@ -184,20 +184,21 @@ def handle_find_contact(args, book):
     (name,) = args
     record = book.find(name.lower())
     if not record:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
     return str(record)
 
 
 @input_error
 def handle_upcoming_birthdays(args, book):
     if book.is_empty():
-        return MESSAGES["empty_book"]
+        return MESSAGES[EMPTY_BOOK_MESSAGE_KEY]
     if args:
         days = int(args[0])
         upcoming_list = book.get_upcoming_birthdays(days)
     else:
         upcoming_list = book.get_upcoming_birthdays()
     show_birthdays(upcoming_list)
+    return ""
 
 
 @input_error
@@ -210,9 +211,9 @@ def handle_add_birthday(args, book):
     name, birthday = args
     record = book.find(name.lower())
     if not record:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
     record.add_birthday(birthday)
-    return MESSAGES["birthday_added"]
+    return MESSAGES[BIRTHDAY_ADDED_MESSAGE_KEY]
 
 
 @input_error
@@ -225,16 +226,16 @@ def handle_update_email(args, book):
     name, old_email, new_email = args
     record = book.find(name.lower())
     if not record:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
     email = record.find_email(old_email)
     if not email:
-        return MESSAGES["email_not_found"]
+        return MESSAGES[EMAIL_NOT_FOUND_MESSAGE_KEY]
     if not validation_email(new_email):
-        return MESSAGES["email_validation_error"]
+        return MESSAGES[EMAIL_VALIDATION_ERROR_MESSAGE_KEY]
     if not validation_email(old_email):
-        return MESSAGES["email_validation_error"]
+        return MESSAGES[EMAIL_VALIDATION_ERROR_MESSAGE_KEY]
     record.update_email(old_email, new_email)
-    return MESSAGES["email_updated"]
+    return MESSAGES[EMAIL_UPDATED_MESSAGE_KEY]
 
 
 @input_error
@@ -247,11 +248,11 @@ def handle_update_birthday(args, book):
     name, birthday = args
     record = book.find(name.lower())
     if not record:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
     if not validation_birthday(birthday):
-        return MESSAGES["birthday_validation_error"]
+        return MESSAGES[BIRTHDAY_VALIDATION_ERROR_MESSAGE_KEY]
     record.update_birthday(Birthday(birthday))
-    return MESSAGES["birthday_updated"]
+    return MESSAGES[BIRTHDAY_UPDATED_MESSAGE_KEY]
 
 
 @input_error
@@ -264,7 +265,7 @@ def handle_find_email(args, book):
     (email,) = args
     records = book.find_by_email(email)
     if not records:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
 
     return show_records(records)
 
@@ -279,7 +280,7 @@ def handle_find_birthday(args, book):
     (birthday,) = args
     records = book.find_by_birthday(birthday)
     if not records:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
 
     return show_records(records)
 
@@ -294,14 +295,6 @@ def handle_add_address(args, book):
     name, address = args
     record = book.find(name.lower())
     if not record:
-        return MESSAGES["contact_not_found"]
+        return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
     record.add_address(address)
-    return MESSAGES["address_added"]
-
-
-def handle_welcome(_args, _book):
-    return MESSAGES["welcome"]
-
-
-def handle_exit(_args, _book):
-    raise StopIteration()
+    return MESSAGES[ADDRESS_ADDED_MESSAGE_KEY]
