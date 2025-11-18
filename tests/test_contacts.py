@@ -152,7 +152,6 @@ def test_update_note_not_found(book):
     handle_add_note(["ginny", "Text", ""], book)
 
     msg = handle_update_note(["ginny", "note", "New text"], book)
-    print(msg)
     assert "No matching note was found" == msg
     
 
