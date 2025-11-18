@@ -78,11 +78,10 @@ class Record:
         return False
 
     def find_notes_by_tag(self, tag: str) -> list[Note]:
-        normalized = tag.strip().lower()
         return [
             note
             for note in self.notes
-            if normalized in (t.lower() for t in note.tags)
+            if tag in (t for t in note.tags)
         ]
 
     def add_tag(self, keywords: list[str], tag: str) -> bool:

@@ -2,7 +2,7 @@ from book.book import Book
 from book.fields_type import Note
 from decorators.decorator_args import validate_args
 from decorators.decorator_error import input_error
-from display.display_notes import show_notes_for_record
+from display.display_notes import show_notes
 from utils.messages import (
     MESSAGES, CONTACT_NOT_FOUND_MESSAGE_KEY, NOTE_ADDED_MESSAGE_KEY,
     NO_FIND_TAG_MESSAGE_KEY, ADD_TAG_MESSAGE_KEY, NOTE_UPDATED_MESSAGE_KEY,
@@ -137,7 +137,7 @@ def handle_show_contact_notes(args, book: Book):
     if not record.notes:
         return MESSAGES[NO_NOTES_EXIST_MESSAGE_KEY]
 
-    show_notes_for_record(record)
+    show_notes(record.name.value, record.notes)
     return ""
 
 
@@ -153,9 +153,9 @@ def handle_find_notes_by_tag(args, book: Book) -> str | None:
     if not record:
         return MESSAGES[CONTACT_NOT_FOUND_MESSAGE_KEY]
 
-    matches = record.find_notes_by_tag(tag.lower())
-    if not matches:
+    notes = record.find_notes_by_tag(tag.lower())
+    if not notes:
         return MESSAGES[NO_FIND_TAG_MESSAGE_KEY]
 
-    show_notes_for_record(matches)
+    show_notes(name, notes)
     return ""
