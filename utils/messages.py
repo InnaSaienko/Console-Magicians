@@ -54,7 +54,6 @@ EMAIL_NO_DATA_MESSAGE_KEY: str = "email_no_data"
 EMAIL_NOT_FOUND_MESSAGE_KEY: str = "email_not_found"
 EMAIL_UPDATED_MESSAGE_KEY: str = "email_updated"
 EMAIL_VALIDATION_ERROR_MESSAGE_KEY: str = "email_validation_error"
-EMAIL_NO_DATA_MESSAGE_KEY: str = "email_no_data"
 
 
 def _get_messages():
